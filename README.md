@@ -1,7 +1,7 @@
 Alexa Skill using IBM Watson Conversation and OpenWhisk
 ================================================================================
 
-This [project](https://github.com/nheidloff/alexa-skill-watson-conversation) contains a simple Alexa skill which has been implemented via the serverless framework [OpenWhisk](http://openwhisk.incubator.apache.org/) and [IBM Watson Conversation](https://console.bluemix.net/catalog/services/conversation). It demonstrates how to define a conversation flow declaratively via Watson Conversation dialogs and it shows how to pass context between different intents.
+This [project](https://github.com/nheidloff/alexa-skill-watson-conversation) contains a simple Alexa skill which has been implemented via the serverless framework [OpenWhisk](http://openwhisk.incubator.apache.org/) and [IBM Watson Conversation](https://www.ibm.com/watson/developercloud/conversation.html). It demonstrates how to define a conversation flow declaratively via Watson Conversation dialogs and it shows how to pass context between different intents.
 
 Here is a sample conversation flow:
 
@@ -14,7 +14,7 @@ Here is a sample conversation flow:
 
 The sample has been implemented via the new [slots filling](http://heidloff.net/article/conversation-watson-slots) functionality in Watson Conversation. The screenshot shows how the entity (slot) 'location' is defined as mandatory and how the value is stored in a context variable.
 
-![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-1.png "Watson")
+![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-2.png "Watson")
 
 The next screenshots shows how the location is automatically used in the next 'weather' intent.
 
