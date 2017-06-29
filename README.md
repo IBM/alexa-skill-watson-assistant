@@ -16,7 +16,7 @@ The sample has been implemented via the new [slots filling](http://heidloff.net/
 
 ![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-2.png "Watson")
 
-The next screenshots shows how the location is automatically used in the next 'weather' intent.
+The next screenshot shows how the location is automatically used in the next 'weather' intent.
 
 ![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-1.png "Watson")
 
