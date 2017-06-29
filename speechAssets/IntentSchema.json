@@ -1,0 +1,13 @@
+{
+  "intents": [
+    {
+      "slots": [
+        {
+          "name": "EveryThingSlot",
+          "type": "BAG_OF_WORDS"
+        }
+      ],
+      "intent": "EveryThingIntent"
+    }
+  ]
+}

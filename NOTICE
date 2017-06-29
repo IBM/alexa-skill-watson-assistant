@@ -1,0 +1,20 @@
+This product includes software originally developed by IBM Corporation
+Copyright 2017 IBM Corp.
+
+
+The following Node.js modules are used but not bundled with this project.
+
+watson-developer-cloud
+https://github.com/watson-developer-cloud/node-sdk
+https://www.npmjs.com/package/watson-developer-cloud
+ALv2: https://github.com/watson-developer-cloud/node-sdk/blob/master/LICENSE
+
+redis
+https://github.com/NodeRedis/node_redis
+https://www.npmjs.com/package/redis
+MIT: https://github.com/NodeRedis/node_redis/blob/master/LICENSE
+
+alexa-verifier
+https://github.com/mreinstein/alexa-verifier
+https://www.npmjs.com/package/alexa-verifier
+MIT: https://github.com/mreinstein/alexa-verifier/blob/master/LICENSE
