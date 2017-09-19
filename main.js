@@ -15,19 +15,28 @@
 //------------------------------------------------------------------------------
 
 let alexaVerifier = require('alexa-verifier');
-let watson = require('watson-developer-cloud');
 let ConversationV1 = require('watson-developer-cloud/conversation/v1');
 let redis = require("redis");
 
 function main(args) {
-    //console.log(args)
+    // console.log(args)
 
     let conversation = new ConversationV1({
-        username: args.WATSON_USER_NAME,
-        password: args.WATSON_PASSWORD,
+        username: args.CONVERSATION_USERNAME,
+        password: args.CONVERSATION_PASSWORD,
         version_date: ConversationV1.VERSION_DATE_2017_04_21
     });
-    let client = redis.createClient(args.REDIS_PORT, args.REDIS_IP);
+    console.log("Connected to Watson Conversation");
+
+    let client = null;
+    if (args.REDIS_URI) {
+        client = redis.createClient(args.REDIS_URI);
+    } else if (args.REDIS_PORT && args.REDIS_IP) {
+        client = redis.createClient(args.REDIS_PORT, args.REDIS_IP);
+    } else {
+        client = redis.createClient();
+    }
+    console.log("Connected to Redis");
 
     let errorResponse = {
         "version": "1.0",
@@ -35,10 +44,10 @@ function main(args) {
             "shouldEndSession": true,
             "outputSpeech": {
                 "type": "PlainText",
-                "text": "An unexpected error occured. Please try again later."
+                "text": "An unexpected error occurred. Please try again later."
             }
         }
-    }
+    };
 
     return new Promise(function (resolve, reject) {
 
@@ -49,14 +58,15 @@ function main(args) {
         alexaVerifier(signaturechainurl, signature, body, function (err) {
 
             if (err) {
-                console.log('err? ' + JSON.stringify(err));
+                console.error('err? ' + JSON.stringify(err));
                 reject(err);
             } else {
                 let request = JSON.parse(body).request;
                 let session = JSON.parse(body).session;
 
                 let previousContext = {};
-                let redisContext;
+
+                console.log("sessionId: " + session.sessionId);
 
                 client.get(session.sessionId, function (err, value) {
                     if (err) {
@@ -74,9 +84,12 @@ function main(args) {
                         else {
                             input = 'start skill';
                         }
+
+                        console.log("WORKSPACE_ID: " + args.WORKSPACE_ID);
+                        console.log("Input text: " + input);
                         conversation.message({
                             input: { text: input },
-                            workspace_id: args.WATSON_WORKSPACE_ID,
+                            workspace_id: args.WORKSPACE_ID,
                             context: previousContext
                         }, function (err, watsonResponse) {
                             if (err) {
@@ -84,9 +97,11 @@ function main(args) {
                                 resolve(errorResponse);
                             }
                             else {
-                                let newContext = {};
+                                let output = watsonResponse.output.text[0];
+                                console.log("Output text: " + output);
                                 if (watsonResponse.context) {
-                                    let newContextString = JSON.stringify(watsonResponse.context);                                    
+                                    let newContextString = JSON.stringify(watsonResponse.context);
+                                    // Save context with expiration of 600 secs
                                     client.set(session.sessionId, newContextString, 'EX', 600);
                                 }
 
@@ -96,10 +111,10 @@ function main(args) {
                                         "shouldEndSession": false,
                                         "outputSpeech": {
                                             "type": "PlainText",
-                                            "text": watsonResponse.output.text[0]
+                                            "text": output
                                         }
                                     }
-                                }
+                                };
                                 resolve(response);
                             }
                         });

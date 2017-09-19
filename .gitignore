@@ -16,3 +16,7 @@
 node_modules
 action.zip
 credentials.txt
+.history
+.env
+.params
+.idea
