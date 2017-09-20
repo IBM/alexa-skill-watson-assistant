@@ -6,14 +6,18 @@ In this developer journey, we will create an Alexa skill using
 via the [Apache OpenWhisk](http://openwhisk.incubator.apache.org/) serverless framework.
 Alexa is the voice service behind products like the Amazon Echo.
 IBM Cloud Functions (based on Apache OpenWhisk) will be used to integrate Alexa
-with Watson Conversation. An example conversation is included to demonstrate
-how to pass context between different intents. Credit goes to
-[Niklas Heidloff](http://heidloff.net/) for creating the original project.
+with Watson Conversation.
+Credit goes to [Niklas Heidloff](http://heidloff.net/) for creating the original project.
+
+An example conversation is included to demonstrate how to pass context between
+different intents. You can also use this journey to try out a conversation from
+the Bot Asset Exchange (BAE).
 
 When the reader has completed this journey, they will understand how to:
 
 * Create an OpenWhisk action in the IBM Cloud Functions serverless platform
 * Use Redis to store a session's conversation context across events
+* Import a conversation from the Bot Asset Exchange (BAE) or a JSON file
 * Invoke a conversation with Watson using Node.js
 * Create an Alexa skill to reach tens of millions of customers 
 
@@ -74,8 +78,8 @@ Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
 -->
 
 1. [Clone the repo](#1-clone-the-repo)
-1. [Create Watson services with IBM Bluemix](#2-create-watson-services-with-ibm-bluemix)
-1. [Import the Conversation workspace](#3-import-the-conversation-workspace)
+1. [Create a Watson Conversation workspace](#2-create-a-watson-conversation-workspace)
+1. [Create a Compose for Redis service](#3-create-a-compose-for-redis-service)
 1. [Configure credentials](#4-configure-credentials)
 1. [Create the OpenWhisk action](#5-create-the-openwhisk-action)
 1. [Create an Alexa skill](#6-create-an-alexa-skill)
@@ -91,22 +95,32 @@ $ git clone https://github.com/nheidloff/alexa-skill-watson-conversation
 $ cd alexa-skill-watson-conversation
 ```
 
-### 2. Create Watson services with IBM Bluemix
+### 2. Create a Watson Conversation workspace
 
 Sign up for [Bluemix](https://console.ng.bluemix.net/registration/) if you don't have a Bluemix account yet.
 
-Create the following services:
+Use one or both of these options (with or without BAE) to setup a Conversation workspace.
 
+#### Using Bot Asset Exchange (BAE)
+If you are using BAE, use `Get a bot` and `Get this bot` to automatically create
+your Conversation service and import your workspace(s). The service will be named
+`Bot Asset Exchange Workspaces` and can hold up to 5 selected workspaces.
+
+#### Using the provided workspace.json file
+Create the service by following this link and hitting `Create`:
 * [**Watson Conversation**](https://console.ng.bluemix.net/catalog/services/conversation)
+
+Import the Conversation workspace.json:
+* Find the Conversation service in your Bluemix Dashboard.
+* Click on the service and then click on `Launch Tool`.
+* Click on the **import** icon (next to the Workspaces Create button).
+* Click `Choose a file` and find the local version of [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
+* Select `Everything` and click `Import`.
+
+### 3. Create a Compose for Redis service
+
+Follow this link and hit `Create`:
 * [**Compose for Redis**](https://console.ng.bluemix.net/catalog/services/compose-for-redis)
-
-### 3. Import the Conversation workspace
-
-Launch the **Watson Conversation** tool. Use the **import** icon button on the right
-
-Find the local version of [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json) and select
-**Import**. Find the **Workspace ID** by clicking on the context menu of the new
-workspace and select **View details**. Save this ID for later.
 
 ### 4. Configure credentials
 
@@ -114,8 +128,8 @@ The credentials for Bluemix services (Conversation and
 Compose for Redis), can be found in the ``Services`` menu in Bluemix,
 by selecting the ``Service Credentials`` option for each service.
 
-The other setting for Conversation was collected during the
-earlier setup steps (``WORKSPACE_ID``).
+Find the ``WORKSPACE_ID`` by clicking on the context menu of the
+workspace and select **View details**.
 
 The default runtime parameters need to be set for the action.
 These can be set on the command-line or via the Bluemix UI.
@@ -199,7 +213,7 @@ ready to create and publish your own Alexa skill.
 
 # Sample output
 
-Here is a sample conversation flow:
+Here is a sample conversation flow using the provided conversation workspace.json:
 
 - User: Alexa, ask my skill what do you know about me
 - Alexa/Watson: I don't know anything about you. Where do you live?
@@ -208,7 +222,7 @@ Here is a sample conversation flow:
 - User: Alexa, ask my skill what is the weather
 - Alexa/Watson: Looking up weather information for Berlin ...
 
-The sample has been implemented via the new [slots filling](http://heidloff.net/article/conversation-watson-slots) functionality in Watson Conversation. The screenshot shows how the entity (slot) 'location' is defined as mandatory and how the value is stored in a context variable.
+The sample has been implemented via the [slots filling](http://heidloff.net/article/conversation-watson-slots) functionality in Watson Conversation. The screenshot shows how the entity (slot) 'location' is defined as mandatory and how the value is stored in a context variable.
 
 ![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-2.png "Watson")
 
