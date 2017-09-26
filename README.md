@@ -80,10 +80,11 @@ Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
 1. [Clone the repo](#1-clone-the-repo)
 1. [Create a Watson Conversation workspace](#2-create-a-watson-conversation-workspace)
 1. [Create a Compose for Redis service](#3-create-a-compose-for-redis-service)
-1. [Configure credentials](#4-configure-credentials)
-1. [Create the OpenWhisk action](#5-create-the-openwhisk-action)
-1. [Create an Alexa skill](#6-create-an-alexa-skill)
-1. [Talk to it](#7-talk-to-it)
+1. [Create a Weather Company Data service](#4-create-a-weather-company-data-service)
+1. [Configure credentials](#5-configure-credentials)
+1. [Create the OpenWhisk action](#6-create-the-openwhisk-action)
+1. [Create an Alexa skill](#7-create-an-alexa-skill)
+1. [Talk to it](#8-talk-to-it)
 
 ### 1. Clone the repo
 
@@ -122,10 +123,22 @@ Import the Conversation workspace.json:
 Follow this link and hit `Create`:
 * [**Compose for Redis**](https://console.ng.bluemix.net/catalog/services/compose-for-redis)
 
-### 4. Configure credentials
+### 4. Create a Weather Company Data service
 
-The credentials for Bluemix services (Conversation and
-Compose for Redis), can be found in the ``Services`` menu in Bluemix,
+If you are using the provided workspace.json, use Weather Company Data to provide weather responses.
+
+Follow this link and hit `Create`:
+* [**Weather Company Data**](https://console.ng.bluemix.net/catalog/services/weather-company-data)
+
+This service includes an OpenWhisk package. Run the following command to update your OpenWhisk bindings:
+```
+$ bx wsk package refresh
+```
+
+### 5. Configure credentials
+
+The credentials for Bluemix services (Conversation,
+Compose for Redis and Weather Company Data), can be found in the ``Services`` menu in Bluemix,
 by selecting the ``Service Credentials`` option for each service.
 
 Find the ``WORKSPACE_ID`` by clicking on the context menu of the
@@ -150,11 +163,12 @@ Edit the `.params` file and add the required settings.
   "CONVERSATION_USERNAME": "<add_conversation_username>",
   "CONVERSATION_PASSWORD": "<add_conversation_password>",
   "WORKSPACE_ID": "<add_conversation_workspace_id>",
-  "REDIS_URI": "<add_redis_uri>"
+  "REDIS_URI": "<add_redis_uri>",
+  "WEATHER_URL": "<add_weather_url>"
 }
 ```
 
-### 5. Create the OpenWhisk action
+### 6. Create the OpenWhisk action
 
 #### Install the CLI
 Install and test the IBM Cloud Functions CLI by following the steps documented [here](https://console.bluemix.net/openwhisk/learn/cli).
@@ -171,7 +185,7 @@ $ zip -r action.zip *
 $ bx wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
 ```
 
-### 6. Create an Alexa skill
+### 7. Create an Alexa skill
 Sign up for an Amazon Developer Portal account [here](http://developer.amazon.com/).
 
 Follow the instructions
@@ -201,7 +215,7 @@ Hit `Next`. Under 'Certificate for DEFAULT Endpoint:' select the `My development
 
 Hit `Next` and your skill is ready for testing!
 
-### 7. Talk to it
+### 8. Talk to it
 
 You can run the sample via Alexa enabled devices, or the [Echo simulator](https://echosim.io/) or the service simulator in the Amazon developer portal.
 
