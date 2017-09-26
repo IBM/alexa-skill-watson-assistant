@@ -19,6 +19,7 @@ When the reader has completed this journey, they will understand how to:
 * Use Redis to store a session's conversation context across events
 * Import a conversation from the Bot Asset Exchange (BAE) or a JSON file
 * Invoke a conversation with Watson using Node.js
+* Use the Weather Channel Data service to lookup locations and forecasts
 * Create an Alexa skill to reach tens of millions of customers 
 
 ![](doc/source/images/architecture.png)
@@ -28,9 +29,10 @@ When the reader has completed this journey, they will understand how to:
 2. Alexa invokes IBM Cloud Functions with input text.
 3. The action gets the conversation context from Redis (if any).
 4. The action gets a response from Watson Conversation.
-5. The response context is stored in Redis.
-6. The response text is sent back to Alexa.
-7. Alexa replies to the user.
+5. The Weather Company Data service provides the forecast (when applicable).
+6. The response context is stored in Redis.
+7. The response text is sent back to Alexa.
+8. Alexa replies to the user.
 
 ## With Watson
 Want to take your Watson app to the next level? Looking to leverage Watson Brand assets? Join the [With Watson](https://www.ibm.com/watson/with-watson) program which provides exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
