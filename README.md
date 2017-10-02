@@ -49,10 +49,8 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 * [Node.js](https://nodejs.org/): An open-source JavaScript run-time environment for executing server-side JavaScript code.
 
 # Watch the Video
-<!--Update this section when the video is created
-[![](http://img.youtube.com/vi/Jxi7U7VOMYg/0.jpg)](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
--->
-> Coming soon
+
+[![](http://img.youtube.com/vi/4cTSkX0wSV8/0.jpg)](https://www.youtube.com/watch?v=4cTSkX0wSV8)
 
 # Steps
 
