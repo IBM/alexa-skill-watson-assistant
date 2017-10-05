@@ -54,28 +54,7 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 
 # Steps
 
-<!-- TODO: D2B
-Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
-
-## Deploy to Bluemix
-[![Deploy to Bluemix](https://deployment-tracker.mybluemix.net/stats/3999122db8b59f04eecad8d229814d83/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
-
-1. Press the above ``Deploy to Bluemix`` button and then click on ``Deploy``.
-
-2. In Toolchains, click on Delivery Pipeline to watch while the app is deployed. Once deployed, the app can be viewed by clicking 'View app'.
-![](doc/source/images/toolchain-pipeline.png)
-
-3. To see the app and services created and configured for this journey, use the Bluemix dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
-    * wbc-conversation-service
-    * wbc-discovery-service
-    * wbc-natural-language-understanding-service
-    * wbc-tone-analyzer-service
--->
-
 ## Run locally
-<!-- TODO: Revisit after adding d2b button.
-> NOTE: These steps are only needed when running locally instead of using the ``Deploy to Bluemix`` button.
--->
 
 1. [Clone the repo](#1-clone-the-repo)
 1. [Create a Watson Conversation workspace](#2-create-a-watson-conversation-workspace)
@@ -92,7 +71,7 @@ Clone the `alexa-skill-watson-conversation` repo locally and `cd` to the local r
 (for commands in later steps). In a terminal, run:
 
 ```
-$ git clone https://github.com/nheidloff/alexa-skill-watson-conversation
+$ git clone https://github.com/IBM/alexa-skill-watson-conversation
 $ cd alexa-skill-watson-conversation
 ```
 
@@ -229,11 +208,11 @@ ready to create and publish your own Alexa skill.
 
 Here is a sample conversation flow using the provided conversation workspace.json:
 
-- User: Alexa, ask my skill what do you know about me
+- User: Alexa, ask Watson what do you know about me?
 - Alexa/Watson: I don't know anything about you. Where do you live?
-- User: Berlin
-- Alexa/Watson: Now I know you live in Berlin
-- User: Alexa, ask my skill what is the weather
+- User: Alexa, tell Watson Berlin
+- Alexa/Watson: I understand you live in Berlin.
+- User: Alexa, ask Watson what is the weather forecast?
 - Alexa/Watson: Looking up weather information for Berlin ...
 
 The sample has been implemented via the [slots filling](http://heidloff.net/article/conversation-watson-slots) functionality in Watson Conversation. The screenshot shows how the entity (slot) 'location' is defined as mandatory and how the value is stored in a context variable.
@@ -249,25 +228,16 @@ The next screenshot shows how the location is automatically used in the next 'we
 
 # Troubleshooting
 
-* View the logs
-
-  > Use this command to show the latest activation log:
-  ```
-  bx wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
-  ```
-
-* View the logs
-
-  > Use this command to show the latest activation log:
+  > Use the Bluemix UI to monitor logs, or use this command to show the latest activation log:
   ```
   bx wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
   ```
 
 * Invoke from command line
 
-  > Use these commands to invoke the action (named alexa-watson in the example) without any input, then check the latest logs. Expect an error (no input), but if your credentials and default args are correct, you should see `Connected to Watson Conversation` and `Connected to Redis` in the log.
+  > Use these commands to invoke the action (named alexa-watson in the example) without any input, then check the latest logs. Expect an error ("Must be called from Alexa").
   ```
-  bx wsk action invoke alexa-watson -dvr
+  bx wsk action invoke alexa-watson -bvd
   bx wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
   ```
 
