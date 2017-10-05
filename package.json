@@ -4,8 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "npm run unit && npm run eslint && npm run jshint",
-    "jshint": "jshint public",
+    "test": "npm run unit && npm run eslint",
     "eslint": "eslint *.js test",
     "unit": "istanbul cover _mocha test/unit -- -R spec"
   },
@@ -15,6 +14,7 @@
     "alexa-verifier": "0.3.6",
     "openwhisk": "^3.7.0",
     "redis": "2.7.1",
+    "request": "^2.83.0",
     "watson-developer-cloud": "2.32.1"
   },
   "devDependencies": {

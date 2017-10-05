@@ -26,7 +26,7 @@ const main = rewire('../../main.js'); // For testing private functions
 const expect = chai.expect;
 sinon.test = sinonTest.configureTest(sinon, { useFakeTimers: false }); // For using sinon.test with async.
 
-const narrative = "It was a dark and stormy night.";
+const narrative = 'It was a dark and stormy night.';
 
 describe('test actionHandler()', function() {
   const actionHandler = main.__get__('actionHandler');
@@ -34,26 +34,37 @@ describe('test actionHandler()', function() {
   const fakeOpenWhisk = function() {
     return {
       actions: {
-        invoke: sinon.stub().returns(Promise.resolve({response: {result: {forecasts: [{
-          narrative: narrative}]}}}))
+        invoke: sinon.stub().returns(
+          Promise.resolve({
+            response: {
+              result: {
+                forecasts: [
+                  {
+                    narrative: narrative
+                  }
+                ]
+              }
+            }
+          })
+        )
       },
       packages: {
-        list: sinon.stub().returns(Promise.resolve([
-          {name: 'test-other'},
-          {name: 'Bluemix_Weather Company Data-credentials123', namespace: 'test-namespace'}
-        ]))
+        list: sinon
+          .stub()
+          .returns(Promise.resolve([{ name: 'test-other' }, { name: 'Bluemix_Weather Company Data-credentials123', namespace: 'test-namespace' }]))
       }
-    }
+    };
   };
 
   main.__set__('myOpenWhisk', fakeOpenWhisk);
-  const TEST_INPUT = {output: {}};
+  const TEST_INPUT = { output: {} };
   const TEST_INPUT_ACTION = {
     output: {
       action: 'lookupWeather',
       location: 'test location',
       text: ['one', 'two', 'three']
-    }};
+    }
+  };
 
   it(
     'test actionHandler without action returns no change',
@@ -78,11 +89,10 @@ describe('test actionHandler()', function() {
 });
 
 describe('test conversationMessage()', function() {
-
   const conversationMessage = main.__get__('conversationMessage');
   let message;
   let conversation;
-  const contextOut = { context: {test: 'testcontext'}};
+  const contextOut = { context: { test: 'testcontext' } };
   const err = null;
   const WS_ID = 'ws-id-to-find';
   const TEST_INPUT = 'test input text';
@@ -90,16 +100,19 @@ describe('test conversationMessage()', function() {
 
   beforeEach(function() {
     main.__set__('context', TEST_CONTEXT);
-    main.__set__('conversation', watson.conversation({
-      username: 'fake',
-      password: 'fake',
-      url: 'fake',
-      version_date: '2017-04-21',
-      version: 'v1'
-    }));
+    main.__set__(
+      'conversation',
+      watson.conversation({
+        username: 'fake',
+        password: 'fake',
+        url: 'fake',
+        version_date: '2017-04-21',
+        version: 'v1'
+      })
+    );
     conversation = main.__get__('conversation');
     message = sinon.stub(conversation, 'message');
-    message.yields(err, contextOut );
+    message.yields(err, contextOut);
   });
 
   it(
@@ -107,7 +120,7 @@ describe('test conversationMessage()', function() {
     sinon.test(function(done) {
       conversationMessage({}, WS_ID).then(result => {
         expect(result).to.deep.equal(contextOut);
-        sinon.assert.calledWithMatch(message, {context: TEST_CONTEXT, input: {text: 'start skill'}, workspace_id: WS_ID});
+        sinon.assert.calledWithMatch(message, { context: TEST_CONTEXT, input: { text: 'start skill' }, workspace_id: WS_ID });
         done();
       });
     })
@@ -116,26 +129,28 @@ describe('test conversationMessage()', function() {
   it(
     'test conversationMessage with intent',
     sinon.test(function(done) {
-      conversationMessage({intent: {slots: {EveryThingSlot: {value: TEST_INPUT}}}}, WS_ID).then(result => {
+      conversationMessage({ intent: { slots: { EveryThingSlot: { value: TEST_INPUT } } } }, WS_ID).then(result => {
         expect(result).to.deep.equal(contextOut);
-        sinon.assert.calledWithMatch(message, {context: TEST_CONTEXT, input: {text: TEST_INPUT}, workspace_id: WS_ID});
+        sinon.assert.calledWithMatch(message, { context: TEST_CONTEXT, input: { text: TEST_INPUT }, workspace_id: WS_ID });
         done();
       });
-    }));
+    })
+  );
 });
 
 describe('test main()', function() {
   it(
     'test main no __ow_body',
     sinon.test(function(done) {
-      main.main({})
+      main
+        .main({})
         .then(result => {
-          sinon.assert.fail("Was supposed to fail before here.")
+          sinon.assert.fail('Was supposed to fail before here.');
           done();
         })
         .catch(err => {
-          console.log("test caught expected error");
-          expect(err.response.outputSpeech.text).to.equal("Must be called from Alexa.");
+          console.log('test caught expected error');
+          expect(err.response.outputSpeech.text).to.equal('Must be called from Alexa.');
           done();
         });
     })
