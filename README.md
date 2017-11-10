@@ -1,5 +1,6 @@
-Create an Alexa skill using Watson Conversation and OpenWhisk
-=============================================================
+[![Build Status](https://travis-ci.org/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.org/IBM/alexa-skill-watson-conversation)
+
+# Create an Alexa skill using Watson Conversation and OpenWhisk
 
 In this Code Pattern, we will create an Alexa skill using
 [Watson Conversation](https://www.ibm.com/watson/developercloud/conversation.html)
@@ -33,9 +34,6 @@ When the reader has completed this Code Pattern, they will understand how to:
 6. The response context is stored in Redis.
 7. The response text is sent back to Alexa.
 8. Alexa replies to the user.
-
-## With Watson
-Want to take your Watson app to the next level? Looking to leverage Watson Brand assets? Join the [With Watson](https://www.ibm.com/watson/with-watson) program which provides exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
 
 ## Included components
 
@@ -223,13 +221,6 @@ The next screenshot shows how the location is automatically used in the next 'we
 
 ![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-1.png "Watson")
 
-# Links
-* [Demo on Youtube](https://www.youtube.com/watch?v=4cTSkX0wSV8): Watch the video.
-* [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk): Download the Watson Node SDK.
-* [Alexa/Google Home infinite loop conversation](https://www.youtube.com/watch?v=LEz9AU9c2qQ): Check out how it works.
-* [Award winners](https://www.voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
-* [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Conversation Service.
-
 # Troubleshooting
 
   > Use the IBM Cloud UI to monitor logs, or use this command to show the latest activation log:
@@ -244,6 +235,20 @@ The next screenshot shows how the location is automatically used in the next 'we
   bx wsk action invoke alexa-watson -bvd
   bx wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
   ```
+
+# Links
+
+* [Demo on Youtube](https://www.youtube.com/watch?v=4cTSkX0wSV8): Watch the video.
+* [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk): Download the Watson Node SDK.
+* [Alexa/Google Home infinite loop conversation](https://www.youtube.com/watch?v=LEz9AU9c2qQ): Check out how it works.
+* [Award winners](https://www.voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
+* [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Conversation Service.
+
+# Learn more
+
+* **Artificial Intelligence Code Patterns**: Enjoyed this Code Pattern? Check out our other [AI Code Patterns](https://developer.ibm.com/code/technologies/artificial-intelligence/).
+* **AI and Data Code Pattern Playlist**: Bookmark our [playlist](https://www.youtube.com/playlist?list=PLzUbsvIyrNfknNewObx5N7uGZ5FKH0Fde) with all of our Code Pattern videos
+* **With Watson**: Want to take your Watson app to the next level? Looking to utilize Watson Brand assets? [Join the With Watson program](https://www.ibm.com/watson/with-watson/) to leverage exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
 
 # License
 [Apache 2.0](LICENSE)
