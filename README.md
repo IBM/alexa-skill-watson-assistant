@@ -1,7 +1,7 @@
 Create an Alexa skill using Watson Conversation and OpenWhisk
 =============================================================
 
-In this developer journey, we will create an Alexa skill using
+In this Code Pattern, we will create an Alexa skill using
 [Watson Conversation](https://www.ibm.com/watson/developercloud/conversation.html)
 via the [Apache OpenWhisk](http://openwhisk.incubator.apache.org/) serverless framework.
 Alexa is the voice service behind products like the Amazon Echo.
@@ -10,10 +10,10 @@ with Watson Conversation.
 Credit goes to [Niklas Heidloff](http://heidloff.net/) for creating the original project.
 
 An example conversation is included to demonstrate how to pass context between
-different intents. You can also use this journey to try out a conversation from
+different intents. You can also use this Code Pattern to try out a conversation from
 the Bot Asset Exchange (BAE).
 
-When the reader has completed this journey, they will understand how to:
+When the reader has completed this Code Pattern, they will understand how to:
 
 * Create an OpenWhisk action in the IBM Cloud Functions serverless platform
 * Use Redis to store a session's conversation context across events
@@ -77,7 +77,7 @@ $ cd alexa-skill-watson-conversation
 
 ### 2. Create a Watson Conversation workspace
 
-Sign up for [Bluemix](https://console.ng.bluemix.net/registration/) if you don't have a Bluemix account yet.
+Sign up for [IBM Cloud](https://console.ng.bluemix.net/registration/) if you don't have an IBM Cloud account yet.
 
 Use one or both of these options (with or without BAE) to setup a Conversation workspace.
 
@@ -91,7 +91,7 @@ Create the service by following this link and hitting `Create`:
 * [**Watson Conversation**](https://console.ng.bluemix.net/catalog/services/conversation)
 
 Import the Conversation workspace.json:
-* Find the Conversation service in your Bluemix Dashboard.
+* Find the Conversation service in your IBM Cloud Dashboard.
 * Click on the service and then click on `Launch Tool`.
 * Click on the **import** icon (next to the Workspaces Create button).
 * Click `Choose a file` and find the local version of [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
@@ -116,15 +116,15 @@ $ bx wsk package refresh
 
 ### 5. Configure credentials
 
-The credentials for Bluemix services (Conversation,
-Compose for Redis and Weather Company Data), can be found in the ``Services`` menu in Bluemix,
+The credentials for IBM Cloud services (Conversation,
+Compose for Redis and Weather Company Data), can be found in the ``Services`` menu in IBM Cloud,
 by selecting the ``Service Credentials`` option for each service.
 
 Find the ``WORKSPACE_ID`` by clicking on the context menu of the
 workspace and select **View details**.
 
 The default runtime parameters need to be set for the action.
-These can be set on the command-line or via the Bluemix UI.
+These can be set on the command-line or via the IBM Cloud UI.
 Here we've provided a params.sample file for you to copy and use
 with the `-param-file .params` option.
 
@@ -201,7 +201,7 @@ You can run the sample via Alexa enabled devices, or the [Echo simulator](https:
 You can invite others to test it with the beta test feature. In order to be
 eligible for beta test, you must fill out most of the publishing information.
 
-You probably shouldn't publish this developer journey, but you are now 
+You probably shouldn't publish this example, but you are now 
 ready to create and publish your own Alexa skill.
 
 # Sample output
@@ -224,11 +224,15 @@ The next screenshot shows how the location is automatically used in the next 'we
 ![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-1.png "Watson")
 
 # Links
-* [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk)
+* [Demo on Youtube](https://www.youtube.com/watch?v=4cTSkX0wSV8): Watch the video.
+* [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk): Download the Watson Node SDK.
+* [Alexa/Google Home infinite loop conversation](https://www.youtube.com/watch?v=LEz9AU9c2qQ): Check out how it works.
+* [Award winners](https://www.voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
+* [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Conversation Service.
 
 # Troubleshooting
 
-  > Use the Bluemix UI to monitor logs, or use this command to show the latest activation log:
+  > Use the IBM Cloud UI to monitor logs, or use this command to show the latest activation log:
   ```
   bx wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
   ```
