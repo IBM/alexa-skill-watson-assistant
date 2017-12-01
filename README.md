@@ -21,7 +21,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 * Import a conversation from the Bot Asset Exchange (BAE) or a JSON file
 * Invoke a conversation with Watson using Node.js
 * Use the Weather Channel Data service to lookup locations and forecasts
-* Create an Alexa skill to reach tens of millions of customers 
+* Create an Alexa skill to reach tens of millions of customers
 
 ![](doc/source/images/architecture.png)
 
@@ -158,7 +158,7 @@ to create a raw HTTP web action in OpenWhisk.
 
 ```sh
 $ npm install
-$ zip -r action.zip * 
+$ zip -r action.zip *
 $ bx wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
 ```
 
@@ -199,7 +199,7 @@ You can run the sample via Alexa enabled devices, or the [Echo simulator](https:
 You can invite others to test it with the beta test feature. In order to be
 eligible for beta test, you must fill out most of the publishing information.
 
-You probably shouldn't publish this example, but you are now 
+You probably shouldn't publish this example, but you are now
 ready to create and publish your own Alexa skill.
 
 # Sample output
