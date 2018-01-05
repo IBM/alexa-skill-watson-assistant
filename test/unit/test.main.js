@@ -51,7 +51,7 @@ describe('test actionHandler()', function() {
       packages: {
         list: sinon
           .stub()
-          .returns(Promise.resolve([{ name: 'test-other' }, { name: 'Bluemix_Weather Company Data-credentials123', namespace: 'test-namespace' }]))
+          .returns(Promise.resolve([{ name: 'test-other' }, { name: 'IBM Cloud_Weather Company Data-credentials123', namespace: 'test-namespace' }]))
       }
     };
   };
