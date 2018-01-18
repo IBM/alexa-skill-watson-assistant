@@ -12,7 +12,7 @@ Credit goes to [Niklas Heidloff](http://heidloff.net/) for creating the original
 
 An example conversation is included to demonstrate how to pass context between
 different intents. You can also use this Code Pattern to try out a conversation from
-the Bot Asset Exchange (BAE).
+the [Bot Asset Exchange (BAE)](https://developer.ibm.com/code/exchanges/bots/).
 
 When the reader has completed this Code Pattern, they will understand how to:
 
@@ -80,7 +80,7 @@ Sign up for [IBM Cloud](https://console.ng.bluemix.net/registration/) if you don
 Use one or both of these options (with or without BAE) to setup a Conversation workspace.
 
 #### Using Bot Asset Exchange (BAE)
-If you are using BAE, use `Get a bot` and `Get this bot` to automatically create
+If you are using BAE, use [Get a bot](https://developer.ibm.com/code/exchanges/bots/#botSearch) and `Get this bot` to automatically create
 your Conversation service and import your workspace(s). The service will be named
 `Bot Asset Exchange Workspaces` and can hold up to 5 selected workspaces.
 
@@ -107,11 +107,22 @@ If you are using the provided workspace.json, use Weather Company Data to provid
 Follow this link and hit `Create`:
 * [**Weather Company Data**](https://console.ng.bluemix.net/catalog/services/weather-company-data)
 
-This service includes an OpenWhisk package. Run the following command to update your OpenWhisk bindings:
+This service includes an OpenWhisk package.
+Run the following to [install the OpenWhisk bindings for IBM cloud](https://console.bluemix.net/openwhisk/learn/cli):
+```
+$ bx plugin install Cloud-Functions -r Bluemix
+```
+
+Run the following command to update your OpenWhisk bindings if they are already installed:
 ```
 $ bx wsk package refresh
 ```
 
+Run the following to test OpenWhisk on IBM Cloud:
+```
+$ bx wsk action invoke /whisk.system/utils/echo -p message hello --result
+Copy
+```
 ### 5. Configure credentials
 
 The credentials for IBM Cloud services (Conversation,
@@ -146,9 +157,6 @@ Edit the `.params` file and add the required settings.
 ```
 
 ### 6. Create the OpenWhisk action
-
-#### Install the CLI
-Install and test the IBM Cloud Functions CLI by following the steps documented [here](https://console.bluemix.net/openwhisk/learn/cli).
 
 #### Create the OpenWhisk action
 Run these commands to gather Node.js requirements, zip the source files, and upload the zipped files
@@ -192,6 +200,11 @@ To get the Web Action URL, take the example POST URL and:
 * Replace "/namespaces/" with "/web/"
 * Replace "/actions/" with "/default/" (or your package name)
 * Add a ".json" suffix
+
+You can use the `POST URL` in this script to get the proper Web Action URL:
+```
+echo <POST_URL> | sed -e s/namespaces/web/ -e s/actions/default/ |rename -n 's/$/.json/'
+```
 
 The resulting URL will have the following structure:
 ```
