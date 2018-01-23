@@ -108,7 +108,7 @@ Follow this link and hit `Create`:
 * [**Weather Company Data**](https://console.ng.bluemix.net/catalog/services/weather-company-data)
 
 This service includes an OpenWhisk package.
-Run the following to [install the OpenWhisk bindings for IBM cloud](https://console.bluemix.net/openwhisk/learn/cli):
+Run the following to [install the OpenWhisk bindings for IBM Cloud](https://console.bluemix.net/openwhisk/learn/cli):
 ```
 $ bx plugin install Cloud-Functions -r Bluemix
 ```
@@ -121,7 +121,6 @@ $ bx wsk package refresh
 Run the following to test OpenWhisk on IBM Cloud:
 ```
 $ bx wsk action invoke /whisk.system/utils/echo -p message hello --result
-Copy
 ```
 ### 5. Configure credentials
 
