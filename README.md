@@ -191,24 +191,9 @@ Copy the data from `data/alexa` to fill out these three sections.
 #### Sample Utterances
 ![](doc/source/images/sample_utterances.png)
 
-On the configuration page you need to define an **HTTPS** service endpoint which is the URL of your OpenWhisk action ending with '.json'. To find this URL, navigate to [IBM Cloud Functions - Actions](https://console.bluemix.net/openwhisk/manage/actions), click on your action and navigate to `Endpoints`.
+On the configuration page you need to define an **HTTPS** service endpoint which is the URL of your OpenWhisk **Web Action**. To find this URL, navigate to [IBM Cloud Functions - Actions](https://console.bluemix.net/openwhisk/manage/actions), click on your action and navigate to `Endpoints`.  The Web Action URL ends with `.json`.
 
 ![](doc/source/images/functions_endpoints.png)
-
-To get the Web Action URL, take the example POST URL and:
-* Replace "/namespaces/" with "/web/"
-* Replace "/actions/" with "/default/" (or your package name)
-* Add a ".json" suffix
-
-You can use the `POST URL` in this script to get the proper Web Action URL:
-```
-echo <POST_URL> | sed -e s/namespaces/web/ -e s/actions/default/ |rename -n 's/$/.json/'
-```
-
-The resulting URL will have the following structure:
-```
-https://{APIHOST}/api/v1/web/{namespace}/{packageName}/{actionName}.json
-```
 
 Hit `Next`. Under 'Certificate for DEFAULT Endpoint:' select the `My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority` option.
 
