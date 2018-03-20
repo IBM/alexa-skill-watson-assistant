@@ -2,6 +2,8 @@
 
 # Create an Alexa skill using Watson Assistant and OpenWhisk
 
+> Watson Conversation is now Watson Assistant. Although some images in this code pattern may show the service as Watson Conversation, the steps and processes will still work.
+
 In this Code Pattern, we will create an Alexa skill using
 [Watson Assistant](https://www.ibm.com/watson/developercloud/conversation.html)
 via the [Apache OpenWhisk](http://openwhisk.incubator.apache.org/) serverless framework.
