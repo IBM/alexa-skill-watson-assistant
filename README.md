@@ -1,13 +1,13 @@
 [![Build Status](https://travis-ci.org/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.org/IBM/alexa-skill-watson-conversation)
 
-# Create an Alexa skill using Watson Assistant for Business and OpenWhisk
+# Create an Alexa skill using Watson Assistant and OpenWhisk
 
 In this Code Pattern, we will create an Alexa skill using
-[Watson Assistant for Business](https://www.ibm.com/watson/developercloud/conversation.html)
+[Watson Assistant](https://www.ibm.com/watson/developercloud/conversation.html)
 via the [Apache OpenWhisk](http://openwhisk.incubator.apache.org/) serverless framework.
 Alexa is the voice service behind products like the Amazon Echo.
 IBM Cloud Functions (based on Apache OpenWhisk) will be used to integrate Alexa
-with Watson Assistant for Business.
+with Watson Assistant.
 Credit goes to [Niklas Heidloff](http://heidloff.net/) for creating the original project.
 
 An example conversation is included to demonstrate how to pass context between
@@ -29,7 +29,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 1. User says "Alexa, ask Watson...".
 2. Alexa invokes IBM Cloud Functions with input text.
 3. The action gets the conversation context from Redis (if any).
-4. The action gets a response from Watson Assistant for Business.
+4. The action gets a response from Watson Assistant.
 5. The Weather Company Data service provides the forecast (when applicable).
 6. The response context is stored in Redis.
 7. The response text is sent back to Alexa.
@@ -37,7 +37,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 ## Included components
 
-* [Watson Assistant for Business](https://www.ibm.com/watson/developercloud/conversation.html): Create a chatbot with a program that conducts a conversation via auditory or textual methods.
+* [Watson Assistant](https://www.ibm.com/watson/developercloud/conversation.html): Create a chatbot with a program that conducts a conversation via auditory or textual methods.
 * [OpenWhisk](https://console.ng.bluemix.net/openwhisk): Execute code on demand in a highly scalable, serverless environment.
 * [Redis](https://redis.io/): An open-source, in-memory data structure store, used as a database, cache and message broker.
 
@@ -55,7 +55,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 ## Run locally
 
 1. [Clone the repo](#1-clone-the-repo)
-1. [Create a Watson Assistant for Business workspace](#2-create-a-watson-conversation-workspace)
+1. [Create a Watson Assistant workspace](#2-create-a-watson-conversation-workspace)
 1. [Create a Compose for Redis service](#3-create-a-compose-for-redis-service)
 1. [Create a Weather Company Data service](#4-create-a-weather-company-data-service)
 1. [Configure credentials](#5-configure-credentials)
@@ -73,23 +73,23 @@ $ git clone https://github.com/IBM/alexa-skill-watson-conversation
 $ cd alexa-skill-watson-conversation
 ```
 
-### 2. Create a Watson Assistant for Business workspace
+### 2. Create a Watson Assistant workspace
 
 Sign up for [IBM Cloud](https://console.ng.bluemix.net/registration/) if you don't have an IBM Cloud account yet.
 
-Use one or both of these options (with or without BAE) to setup a Assistant for Business workspace.
+Use one or both of these options (with or without BAE) to setup a Assistant workspace.
 
 #### Using Bot Asset Exchange (BAE)
 If you are using BAE, use [Get a bot](https://developer.ibm.com/code/exchanges/bots/#botSearch) and `Get this bot` to automatically create
-your Assistant for Business service and import your workspace(s). The service will be named
+your Assistant service and import your workspace(s). The service will be named
 `Bot Asset Exchange Workspaces` and can hold up to 5 selected workspaces.
 
 #### Using the provided workspace.json file
 Create the service by following this link and hitting `Create`:
-* [**Watson Assistant for Business**](https://console.ng.bluemix.net/catalog/services/conversation)
+* [**Watson Assistant**](https://console.ng.bluemix.net/catalog/services/conversation)
 
-Import the Assistant for Business workspace.json:
-* Find the Assistant for Business service in your IBM Cloud Dashboard.
+Import the Assistant workspace.json:
+* Find the Assistant service in your IBM Cloud Dashboard.
 * Click on the service and then click on `Launch Tool`.
 * Click on the **import** icon (next to the Workspaces Create button).
 * Click `Choose a file` and find the local version of [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
@@ -124,7 +124,7 @@ $ bx wsk action invoke /whisk.system/utils/echo -p message hello --result
 ```
 ### 5. Configure credentials
 
-The credentials for IBM Cloud services (Assistant for Business,
+The credentials for IBM Cloud services (Assistant,
 Compose for Redis and Weather Company Data), can be found in the ``Services`` menu in IBM Cloud,
 by selecting the ``Service Credentials`` option for each service.
 
@@ -180,7 +180,7 @@ Select `Custom Interaction Model` and choose a `Name` and `Invocation Name`.
 
 ![](doc/source/images/create_skill.png)
 
-Save and hit `Next` and then you will enter an `Intent Schema`, `Custom Slot Types` and `Sample Utterances`. We'll use a very minimal data here and let Watson Assistant for Business do most of the work.
+Save and hit `Next` and then you will enter an `Intent Schema`, `Custom Slot Types` and `Sample Utterances`. We'll use a very minimal data here and let Watson Assistant do most of the work.
 
 Copy the data from `data/alexa` to fill out these three sections.
 
@@ -235,7 +235,7 @@ Here is a sample conversation flow using the provided conversation workspace.jso
 - User: Alexa, ask Watson what is the weather forecast?
 - Alexa/Watson: Looking up weather information for Berlin ...
 
-The sample has been implemented via the [slots filling](http://heidloff.net/article/conversation-watson-slots) functionality in Watson Assistant for Business. The screenshot shows how the entity (slot) 'location' is defined as mandatory and how the value is stored in a context variable.
+The sample has been implemented via the [slots filling](http://heidloff.net/article/conversation-watson-slots) functionality in Watson Assistant. The screenshot shows how the entity (slot) 'location' is defined as mandatory and how the value is stored in a context variable.
 
 ![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-2.png "Watson")
 
@@ -264,7 +264,7 @@ The next screenshot shows how the location is automatically used in the next 'we
 * [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk): Download the Watson Node SDK.
 * [Alexa/Google Home infinite loop conversation](https://www.youtube.com/watch?v=LEz9AU9c2qQ): Check out how it works.
 * [Award winners](https://www.voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
-* [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Assistant for Business Service.
+* [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Assistant Service.
 
 # Learn more
 

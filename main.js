@@ -55,7 +55,7 @@ function verifyFromAlexa(args, rawBody) {
 }
 
 function initClients(args) {
-  // Connect a client to Watson Conversation
+  // Connect a client to Watson Assistant
   conversation = new ConversationV1({
     username: args.CONVERSATION_USERNAME,
     password: args.CONVERSATION_PASSWORD,
