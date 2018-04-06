@@ -99,8 +99,14 @@ Import the Assistant workspace.json:
 
 ### 3. Create a Compose for Redis service
 
-Follow this link and hit `Create`:
-* [**Compose for Redis**](https://console.ng.bluemix.net/catalog/services/compose-for-redis)
+> NOTE: The code currently requires you to disable TLS.
+
+  1. Follow this link: [**Compose for Redis**](https://console.ng.bluemix.net/catalog/services/compose-for-redis)
+  1. Use the `TLS Enabled` pull-down to select `False`
+  1. Hit the `Create` button
+
+
+![](doc/source/images/redis_tls_false.png)
 
 ### 4. Create a Weather Company Data service
 
