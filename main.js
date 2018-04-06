@@ -175,7 +175,7 @@ function getWeatherCompanyForecast(geocode) {
         const result = results[i];
         console.log(result);
         console.log(result.name);
-        if (result.name.startsWith('Bluemix_Weather Company Data')) {
+        if (result.binding.name === 'weather') {
           name = '/' + result.namespace + '/' + result.name + '/forecast';
           break;
         }
