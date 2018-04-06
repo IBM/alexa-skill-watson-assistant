@@ -49,9 +49,16 @@ describe('test actionHandler()', function() {
         )
       },
       packages: {
-        list: sinon
-          .stub()
-          .returns(Promise.resolve([{ name: 'test-other' }, { name: 'Bluemix_Weather Company Data-credentials123', namespace: 'test-namespace' }]))
+        list: sinon.stub().returns(
+          Promise.resolve([
+            { name: 'test-other', binding: {} },
+            {
+              name: 'Whatevr_Weather Company Data-credentials123',
+              namespace: 'test-namespace',
+              binding: { name: 'weather' }
+            }
+          ])
+        )
       }
     };
   };
