@@ -50,7 +50,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 # Watch the Video
 
-[![](http://img.youtube.com/vi/4cTSkX0wSV8/0.jpg)](https://www.youtube.com/watch?v=4cTSkX0wSV8)
+[![](http://img.youtube.com/vi/_iODArA1Eqs/0.jpg)](https://www.youtube.com/watch?v=_iODArA1Eqs)
 
 # Steps
 
@@ -283,11 +283,12 @@ The next screenshot shows how the location is automatically used in the next 'we
 
 # Links
 
-* [Demo on Youtube](https://www.youtube.com/watch?v=4cTSkX0wSV8): Watch the video.
+* [Demo on Youtube](https://www.youtube.com/watch?v=_iODArA1Eqs): Watch the video.
 * [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk): Download the Watson Node SDK.
 * [Alexa/Google Home infinite loop conversation](https://www.youtube.com/watch?v=LEz9AU9c2qQ): Check out how it works.
 * [Award winners](https://www.voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
 * [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Assistant Service.
+* [Old Demo on Youtube](https://www.youtube.com/watch?v=4cTSkX0wSV8): Watch the video.
 
 # Learn more
 
