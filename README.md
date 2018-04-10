@@ -105,7 +105,6 @@ Import the Assistant workspace.json:
   1. Use the `TLS Enabled` pull-down to select `False`
   1. Hit the `Create` button
 
-
 ![](doc/source/images/redis_tls_false.png)
 
 ### 4. Create a Weather Company Data service
@@ -119,6 +118,11 @@ This service includes an OpenWhisk package.
 Run the following to [install the OpenWhisk bindings for IBM Cloud](https://console.bluemix.net/openwhisk/learn/cli):
 ```
 $ bx plugin install Cloud-Functions -r Bluemix
+```
+
+Use `bx login` to initially login or to change your target:
+```
+bx login -a <API endpoint> -o <Organization> -s <Space> 
 ```
 
 Run the following command to update your OpenWhisk bindings if they are already installed:
@@ -173,43 +177,74 @@ to create a raw HTTP web action in OpenWhisk.
 
 ```sh
 $ npm install
-$ zip -r action.zip *
+$ rm action.zip
+$ zip -r action.zip main.js package* node_modules
 $ bx wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
 ```
+
+Determine your IBM Cloud endpoint:
+
+To find this URL, navigate to [IBM Cloud Functions - Actions](https://console.bluemix.net/openwhisk/manage/actions), click on your action and navigate to `Endpoints`.  The Web Action URL ends with `.json`.
+
+![](doc/source/images/functions_endpoints.png)
 
 ### 7. Create an Alexa skill
 Sign up for an Amazon Developer Portal account [here](http://developer.amazon.com/).
 
-Follow the instructions
-[here](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/registering-and-managing-alexa-skills-in-the-developer-portal#register-a-new-skill)
-to register your new skill using the `Alexa Skills Kit`.
+Go to https://developer.amazon.com/alexa/console/ask and click the `Create Skill` button.
 
-Select `Custom Interaction Model` and choose a `Name` and `Invocation Name`.
+![](doc/source/images/create_alexa_skill.png)
 
-![](doc/source/images/create_skill.png)
+Provide a name and hit `Next`.
 
-Save and hit `Next` and then you will enter an `Intent Schema`, `Custom Slot Types` and `Sample Utterances`. We'll use a very minimal data here and let Watson Assistant do most of the work.
+Use the `Select` button to create a **Custom** skill and hit the `Create Skill` button.
 
-Copy the data from `data/alexa` to fill out these three sections.
+![](doc/source/images/select_custom_skill.png)
 
-#### Intent Schema
-![](doc/source/images/intent_schema.png)
-#### Custom Slot Types
-![](doc/source/images/custom_slot_types.png)
-#### Sample Utterances
-![](doc/source/images/sample_utterances.png)
+Provide an invocation name:
 
-On the configuration page you need to define an **HTTPS** service endpoint which is the URL of your OpenWhisk **Web Action**. To find this URL, navigate to [IBM Cloud Functions - Actions](https://console.bluemix.net/openwhisk/manage/actions), click on your action and navigate to `Endpoints`.  The Web Action URL ends with `.json`.
+![](doc/source/images/invocation_name.png)
 
-![](doc/source/images/functions_endpoints.png)
+Add a custom slot type:
 
-Hit `Next`. Under 'Certificate for DEFAULT Endpoint:' select the `My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority` option.
+* Click on `Slot Types` and hit the `Add Slot Type` button.
+* Use the name `BAG_OF_WORDS` and hit the `Create custom slot type` button.
 
-Hit `Next` and your skill is ready for testing!
+![](doc/source/images/create_slot_type.png)
+
+* Use `Hello World` to give BAG_OF_WORDS some Slot Values.
+
+![](doc/source/images/bag_of_words.png)
+
+Add a custom intent type:
+
+* Click on `Intents` and hit the `Add Intent` button.
+* Use the name `EveryThingIntent` and hit the `Create custom intent` button.
+* Add `{EveryThingSlot}` under Sample Utterances. Use the `Add` button to create `EveryThingSlot`.
+
+![](doc/source/images/sample_utterance.png)
+
+* Under `Intent Slots` give `EveryThingSlot` the slot type `BAG_OF_WORDS`.
+
+![](doc/source/images/create_everything_intent.png)
+
+Configure the endpoint (back in the Alexa Skills Console):
+
+* Click on `Endpoint`.
+* Select `HTTPS` as the Service Endpoint Type.
+* For the Default Region enter the **HTTPS** service endpoint which is the URL of your OpenWhisk **Web Action** from step 6.
+* Use the pull-down to select `My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority`.
+* Click the `Save Endpoints` button.
+
+![](doc/source/images/service_endpoint_type.png)
+
+Hit `Save Model` and `Build Model`. Your skill is ready for testing!
+
+![](doc/source/images/save_and_build.png)
 
 ### 8. Talk to it
 
-You can run the sample via Alexa enabled devices, or the [Echo simulator](https://echosim.io/) or the service simulator in the Amazon developer portal.
+Use the `Test` tab in the Amazon developer console, or you can run the sample via Alexa enabled devices, or the [Echo simulator](https://echosim.io/).
 
 You can invite others to test it with the beta test feature. In order to be
 eligible for beta test, you must fill out most of the publishing information.
@@ -221,12 +256,7 @@ ready to create and publish your own Alexa skill.
 
 Here is a sample conversation flow using the provided conversation workspace.json:
 
-- User: Alexa, ask Watson what do you know about me?
-- Alexa/Watson: I don't know anything about you. Where do you live?
-- User: Alexa, tell Watson Berlin
-- Alexa/Watson: I understand you live in Berlin.
-- User: Alexa, ask Watson what is the weather forecast?
-- Alexa/Watson: Looking up weather information for Berlin ...
+![](doc/source/images/sample_conversation.png)
 
 The sample has been implemented via the [slots filling](http://heidloff.net/article/conversation-watson-slots) functionality in Watson Assistant. The screenshot shows how the entity (slot) 'location' is defined as mandatory and how the value is stored in a context variable.
 
