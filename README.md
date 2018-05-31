@@ -227,7 +227,9 @@ Provide an invocation name:
 Add a custom slot type:
 
 * In the left sidebar menu, click on `Slot Types (#)` and hit `+ Add`.
+
 ![](doc/source/images/slot_types.png)
+
 * Use the name `BAG_OF_WORDS` and hit the `Create custom slot type` button.
 
 ![](doc/source/images/create_slot_type.png)
@@ -239,7 +241,9 @@ Add a custom slot type:
 Add a custom intent type:
 
 * In the left sidebar menu, click on `Intents (#)` and hit `+ Add`.
+
 ![](doc/source/images/intents.png)
+
 * Use the name `EveryThingIntent` and hit the `Create custom intent` button.
 * Add `{EveryThingSlot}` under Sample Utterances. Use the plus sign to create the `EveryThingSlot`.
 
