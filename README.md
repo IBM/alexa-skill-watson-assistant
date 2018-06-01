@@ -82,8 +82,10 @@ Sign up for [IBM Cloud](https://console.ng.bluemix.net/registration/) if you don
 Use one or both of these options (with or without BAE) to setup a Assistant workspace.
 
 #### Using Bot Asset Exchange (BAE)
-If you are using BAE, use [Get a bot](https://developer.ibm.com/code/exchanges/bots/#botSearch) and `Get this bot` to automatically create
-your Assistant service and import your workspace(s). The service will be named
+If you are using
+[BAE](https://developer.ibm.com/code/exchanges/bots),
+click on a `Deploy this bot` button to automatically create
+your Assistant service and import your workspace. The service will be named
 `Bot Asset Exchange Workspaces` and can hold up to 5 selected workspaces.
 
 #### Using the provided workspace.json file
@@ -93,8 +95,9 @@ Create the service by following this link and hitting `Create`:
 Import the Assistant workspace.json:
 * Find the Assistant service in your IBM Cloud Dashboard.
 * Click on the service and then click on `Launch Tool`.
+* Go to the `Workspaces` tab.
 * Click on the **import** icon (next to the Workspaces Create button).
-* Click `Choose a file` and find the local version of [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
+* Click `Choose a file`, go to your cloned repo dir, and `Open` the workspace.json file in [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
 * Select `Everything` and click `Import`.
 
 ### 3. Create a Compose for Redis service
@@ -114,39 +117,12 @@ If you are using the provided workspace.json, use Weather Company Data to provid
 Follow this link and hit `Create`:
 * [**Weather Company Data**](https://console.ng.bluemix.net/catalog/services/weather-company-data)
 
-This service includes an OpenWhisk package.
-Run the following to [install the OpenWhisk bindings for IBM Cloud](https://console.bluemix.net/openwhisk/learn/cli):
-```
-$ bx plugin install Cloud-Functions -r Bluemix
-```
-
-Use `bx login` to initially login or to change your target:
-```
-bx login -a <API endpoint> -o <Organization> -s <Space> 
-```
-
-Run the following command to update your OpenWhisk bindings if they are already installed:
-```
-$ bx wsk package refresh
-```
-
-Run the following to test OpenWhisk on IBM Cloud:
-```
-$ bx wsk action invoke /whisk.system/utils/echo -p message hello --result
-```
 ### 5. Configure credentials
-
-The credentials for IBM Cloud services (Assistant,
-Compose for Redis and Weather Company Data), can be found in the ``Services`` menu in IBM Cloud,
-by selecting the ``Service Credentials`` option for each service.
-
-Find the ``WORKSPACE_ID`` by clicking on the context menu of the
-workspace and select **View details**.
 
 The default runtime parameters need to be set for the action.
 These can be set on the command-line or via the IBM Cloud UI.
 Here we've provided a params.sample file for you to copy and use
-with the `-param-file .params` option.
+with the `-param-file .params` option (which is used in the instructions below).
 
 Copy the [`params.sample`](params.sample) to `.params`.
 
@@ -159,32 +135,75 @@ Edit the `.params` file and add the required settings.
 
 ```json
 {
-  "CONVERSATION_USERNAME": "<add_conversation_username>",
-  "CONVERSATION_PASSWORD": "<add_conversation_password>",
-  "WORKSPACE_ID": "<add_conversation_workspace_id>",
+  "CONVERSATION_USERNAME": "<add_assistant_username>",
+  "CONVERSATION_PASSWORD": "<add_assistant_password>",
+  "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
   "WEATHER_URL": "<add_weather_url>"
 }
 ```
 
+#### How to find the credentials and workspace ID:
+
+The credentials for IBM Cloud services (Assistant,
+Compose for Redis, and Weather Company Data), can be found in the IBM Cloud UI.
+* Go to your IBM Cloud Dashboard.
+* Find each service in the `Cloud Foundry Services` list.
+* Click on the service name.
+* Click on `Service credentials` in the sidebar.
+* If there are no credentials listed, click the `New credential` button (some services will create one by default).
+* Click on `View credentials` to see your credentials.
+* Collect the username, password, uri, and url as needed to fill out the .params file.
+
+To find the `WORKSPACE_ID` for Watson Assistant:
+* Go to your IBM Cloud Dashboard.
+* Click on your Assistant service in the `Cloud Foundry Services` list.
+* Click on `Manage` in the sidebar.
+* Click on the `Launch tool` button.
+* Click on the `Workspaces` tab.
+* Find the card for the workspace you would like to use. Look for `Alexa Sample`, if you uploaded workspace.json. The name will vary if you used BAE.
+* Click on the three dots in the upper right-hand corner of the card and select `View details`.
+* Copy the `Workspace ID` GUID.
+
 ### 6. Create the OpenWhisk action
+
+Run the following to [install the OpenWhisk bindings for IBM Cloud](https://console.bluemix.net/openwhisk/learn/cli):
+```
+bx plugin install Cloud-Functions -r Bluemix
+```
+
+Use `bx login` to initially login or to change your target:
+```
+bx login -a <API endpoint> -o <Organization> -s <Space>
+```
+
+Run the following command to update your OpenWhisk bindings if they are already installed:
+```
+bx wsk package refresh
+```
+
+Run the following to test OpenWhisk on IBM Cloud:
+```
+bx wsk action invoke /whisk.system/utils/echo -p message hello --result
+```
 
 #### Create the OpenWhisk action
 Run these commands to gather Node.js requirements, zip the source files, and upload the zipped files
 to create a raw HTTP web action in OpenWhisk.
 
-> Note: You can use the same commands to update the action if you modify the code.
+> Note: You can use the same commands to update the action if you modify the code or the .params.
 
 ```sh
-$ npm install
-$ rm action.zip
-$ zip -r action.zip main.js package* node_modules
-$ bx wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
+npm install
+rm action.zip
+zip -r action.zip main.js package* node_modules
+bx wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
 ```
 
-Determine your IBM Cloud endpoint:
+#### Determine your IBM Cloud endpoint:
 
-To find this URL, navigate to [IBM Cloud Functions - Actions](https://console.bluemix.net/openwhisk/manage/actions), click on your action and navigate to `Endpoints`.  The Web Action URL ends with `.json`.
+To find this URL, navigate to [IBM Cloud Functions - Actions](https://console.bluemix.net/openwhisk/manage/actions), click on your
+`alexa-watson` action and use the sidebar to navigate to `Endpoints`.  The Web Action URL ends with `.json`.
 
 ![](doc/source/images/functions_endpoints.png)
 
@@ -207,44 +226,55 @@ Provide an invocation name:
 
 Add a custom slot type:
 
-* Click on `Slot Types` and hit the `Add Slot Type` button.
+* In the left sidebar menu, click on `Slot Types (#)` and hit `+ Add`.
+
+![](doc/source/images/slot_types.png)
+
 * Use the name `BAG_OF_WORDS` and hit the `Create custom slot type` button.
 
 ![](doc/source/images/create_slot_type.png)
 
-* Use `Hello World` to give BAG_OF_WORDS some Slot Values.
+* Now `BAG_OF_WORDS` needs a slot value. Just enter `Hello World` and hit the plus sign so that it has a slot value.
 
 ![](doc/source/images/bag_of_words.png)
 
 Add a custom intent type:
 
-* Click on `Intents` and hit the `Add Intent` button.
+* In the left sidebar menu, click on `Intents (#)` and hit `+ Add`.
+
+![](doc/source/images/intents.png)
+
 * Use the name `EveryThingIntent` and hit the `Create custom intent` button.
-* Add `{EveryThingSlot}` under Sample Utterances. Use the `Add` button to create `EveryThingSlot`.
+* Add `{EveryThingSlot}` under Sample Utterances. Use the plus sign to create the `EveryThingSlot`.
 
 ![](doc/source/images/sample_utterance.png)
 
-* Under `Intent Slots` give `EveryThingSlot` the slot type `BAG_OF_WORDS`.
+* Scroll down to `Intent Slots (#)`
+* Use the `Select a slot type` pulldown to give `EveryThingSlot` the slot type `BAG_OF_WORDS`.
 
 ![](doc/source/images/create_everything_intent.png)
 
-Configure the endpoint (back in the Alexa Skills Console):
-
-* Click on `Endpoint`.
-* Select `HTTPS` as the Service Endpoint Type.
-* For the Default Region enter the **HTTPS** service endpoint which is the URL of your OpenWhisk **Web Action** from step 6.
-* Use the pull-down to select `My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority`.
-* Click the `Save Endpoints` button.
-
-![](doc/source/images/service_endpoint_type.png)
-
-Hit `Save Model` and `Build Model`. Your skill is ready for testing!
+Click on `Save Model` and then `Build Model`.
 
 ![](doc/source/images/save_and_build.png)
 
+Configure the endpoint:
+
+* Click on `Endpoint` in the right-hand sidebar.
+* Select `HTTPS` as the Service Endpoint Type.
+* For the Default Region enter the **HTTPS** service endpoint which is the URL of your OpenWhisk **Web Action** from step 6.
+* Use the pull-down to select `My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority`.
+* Click the `Save Endpoints` button!
+
+![](doc/source/images/service_endpoint_type.png)
+
 ### 8. Talk to it
 
-Use the `Test` tab in the Amazon developer console, or you can run the sample via Alexa enabled devices, or the [Echo simulator](https://echosim.io/).
+Use the `Test` tab in the Amazon developer console.
+
+Use the slider to enable your skill for testing. You can type or talk and test the skill in the test UI.
+
+> Once enabled, you can run the sample via Alexa enabled devices, or the [Echo simulator](https://echosim.io/).
 
 You can invite others to test it with the beta test feature. In order to be
 eligible for beta test, you must fill out most of the publishing information.
@@ -260,11 +290,11 @@ Here is a sample conversation flow using the provided conversation workspace.jso
 
 The sample has been implemented via the [slots filling](http://heidloff.net/article/conversation-watson-slots) functionality in Watson Assistant. The screenshot shows how the entity (slot) 'location' is defined as mandatory and how the value is stored in a context variable.
 
-![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-2.png "Watson")
+![whatdoyouknow](doc/source/images/what_you_know.png)
 
 The next screenshot shows how the location is automatically used in the next 'weather' intent.
 
-![alt text](https://raw.githubusercontent.com/nheidloff/alexa-skill-watson-conversation/master/screenshots/dialog-1.png "Watson")
+![whatisforecast](doc/source/images/what_is_forecast.png)
 
 # Troubleshooting
 

@@ -1,7 +1,7 @@
 {
-  "CONVERSATION_USERNAME": "<add_conversation_username>",
-  "CONVERSATION_PASSWORD": "<add_conversation_password>",
-  "WORKSPACE_ID": "<add_conversation_workspace_id>",
+  "CONVERSATION_USERNAME": "<add_assistant_username>",
+  "CONVERSATION_PASSWORD": "<add_assistant_password>",
+  "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
   "WEATHER_URL": "<add_weather_url>"
 }
