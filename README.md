@@ -294,7 +294,7 @@ The sample has been implemented via the [slots filling](http://heidloff.net/arti
 
 The next screenshot shows how the location is automatically used in the next 'weather' intent.
 
-![whatisforecast](doc/source/images/what_you_know.png)
+![whatisforecast](doc/source/images/what_is_forecast.png)
 
 # Troubleshooting
 
