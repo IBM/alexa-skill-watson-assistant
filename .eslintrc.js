@@ -16,7 +16,7 @@ module.exports = {
   "rules": {
     "no-console": 0,
     "no-process-exit": 0,
-    "node/no-unpublished-require": ["error", {"allowModules": ["chai", "sinon", "sinon-test", "rewire"]}],
+    "node/no-unpublished-require": ["error", {"allowModules": ["chai", "sinon", "sinon-dev", "rewire"]}],
     "prettier/prettier": ["error", {"singleQuote": true, "printWidth": 160}],
     "prefer-const": "error",
     "prefer-rest-params": "off",
