@@ -17,7 +17,7 @@
 'use strict';
 
 const alexaVerifier = require('alexa-verifier');
-const ConversationV1 = require('watson-developer-cloud/conversation/v1');
+const AssistantV1 = require('watson-developer-cloud/assistant/v1');
 const redis = require('redis');
 const openwhisk = require('openwhisk');
 const request = require('request');
@@ -56,11 +56,20 @@ function verifyFromAlexa(args, rawBody) {
 
 function initClients(args) {
   // Connect a client to Watson Assistant
-  conversation = new ConversationV1({
-    username: args.CONVERSATION_USERNAME,
-    password: args.CONVERSATION_PASSWORD,
-    version_date: ConversationV1.VERSION_DATE_2017_04_21
-  });
+  if (args.CONVERSATION_USERNAME) {
+    conversation = new AssistantV1({
+      version: '2018-02-16',
+      username: args.CONVERSATION_USERNAME,
+      password: args.CONVERSATION_PASSWORD
+    });
+  } else if (args.CONVERSATION_IAM_APIKEY) {
+    conversation = new AssistantV1({
+      version: '2018-02-16',
+      iam_apikey: args.CONVERSATION_IAM_APIKEY,
+      url: args.CONVERSATION_IAM_URL
+    });
+  }
+
   console.log('Connected to Watson Conversation');
 
   // Connect a client to Redis

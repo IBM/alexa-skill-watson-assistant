@@ -133,10 +133,28 @@ Edit the `.params` file and add the required settings.
 
 #### `params.sample:`
 
+* If the service credentials from IBM Watson Assistant is username/password based as below populate the username, password and workspace_id and replace `.params` file with the json
+
+![](https://github.com/IBM/pattern-images/raw/master/watson-assistant/WatsonAssistantCredentials.png)
+
 ```json
 {
   "CONVERSATION_USERNAME": "<add_assistant_username>",
   "CONVERSATION_PASSWORD": "<add_assistant_password>",
+  "WORKSPACE_ID": "<add_assistant_workspace_id>",
+  "REDIS_URI": "<add_redis_uri>",
+  "WEATHER_URL": "<add_weather_url>"
+}
+```
+
+* If the service credentials from IBM Watson Assistant is IAM based as below, populate the IAM apikey, url, and workspace_id and replace the `.params` file
+
+![](https://github.com/IBM/pattern-images/raw/master/watson-assistant/watson_assistant_api_key.png)
+
+```json 
+{
+  "CONVERSATION_IAM_APIKEY": "<add_assistant_apikey>",
+  "CONVERSATION_IAM_URL": "<add_assistant_url>",
   "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
   "WEATHER_URL": "<add_weather_url>"
@@ -222,7 +240,7 @@ Use the `Select` button to create a **Custom** skill and hit the `Create Skill` 
 
 Provide an invocation name:
 
-![](doc/source/images/invocation_name.png)
+![](doc/source/images/invocation_name_v1.png)
 
 Add a custom slot type:
 
