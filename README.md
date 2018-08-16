@@ -94,9 +94,9 @@ Create the service by following this link and hitting `Create`:
 
 Import the Assistant workspace.json:
 * Find the Assistant service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch Tool`.
+* Click on the service and then click on `Launch tool`.
 * Go to the `Workspaces` tab.
-* Click on the **import** icon (next to the Workspaces Create button).
+* Click on the **Import workspace** icon.
 * Click `Choose a file`, go to your cloned repo dir, and `Open` the workspace.json file in [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
 * Select `Everything` and click `Import`.
 
@@ -288,7 +288,7 @@ Click on `Save Model` and then `Build Model`.
 
 Configure the endpoint:
 
-* Click on `Endpoint` in the right-hand sidebar.
+* Click on `Endpoint` in the sidebar.
 * Select `HTTPS` as the Service Endpoint Type.
 * For the Default Region enter the **HTTPS** service endpoint which is the URL of your OpenWhisk **Web Action** from step 6.
 * Use the pull-down to select `My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority`.
