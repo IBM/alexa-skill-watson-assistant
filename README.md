@@ -58,7 +58,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 1. [Clone the repo](#1-clone-the-repo)
 1. [Create a Watson Assistant workspace](#2-create-a-watson-conversation-workspace)
-1. [Create a Compose for Redis service](#3-create-a-compose-for-redis-service)
+1. [Create a Databases for Redis service](#3-create-a-databases-for-redis-service)
 1. [Create a Weather Company Data service](#4-create-a-weather-company-data-service)
 1. [Configure credentials](#5-configure-credentials)
 1. [Create the OpenWhisk action](#6-create-the-openwhisk-action)
@@ -95,16 +95,17 @@ Create the service by following this link and hitting `Create`:
 Import the Assistant workspace.json:
 * Find the Assistant service in your IBM Cloud Dashboard.
 * Click on the service and then click on `Launch tool`.
-* Go to the `Workspaces` tab.
-* Click on the **Import workspace** icon.
-* Click `Choose a file`, go to your cloned repo dir, and `Open` the workspace.json file in [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
+* Go to the `Skills` tab.
+* Click `Create new`
+* Click the **Import skill** tab.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
 * Select `Everything` and click `Import`.
 
-### 3. Create a Compose for Redis service
+### 3. Create a Databases for Redis service
 
 > NOTE: The code currently requires you to disable TLS.
 
-  1. Follow this link: [**Compose for Redis**](https://console.ng.bluemix.net/catalog/services/compose-for-redis)
+  1. Follow this link: [**Databases for Redis**](https://console.ng.bluemix.net/catalog/services/databases-for-redis)
   1. Use the `TLS Enabled` pull-down to select `False`
   1. Hit the `Create` button
 
@@ -174,7 +175,7 @@ Edit the `.params` file and add the required settings.
 #### How to find the credentials and workspace ID:
 
 The credentials for IBM Cloud services (Assistant,
-Compose for Redis, and Weather Company Data), can be found in the IBM Cloud UI.
+Databases for Redis, and Weather Company Data), can be found in the IBM Cloud UI.
 * Go to your IBM Cloud Dashboard.
 * Find each service in the `Cloud Foundry Services` list.
 * Click on the service name.
