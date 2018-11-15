@@ -206,7 +206,7 @@ to create a raw HTTP web action in OpenWhisk.
 npm install
 rm action.zip
 zip -r action.zip main.js package* node_modules
-bx wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
+ibmcloud wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
 ```
 
 #### Determine your IBM Cloud endpoint:
@@ -311,7 +311,7 @@ The next screenshot shows how the location is automatically used in the next 'we
 
   > Use the IBM Cloud UI to monitor logs, or use this CLI command to show the latest activation log:
   ```
-  ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
+  ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs ibmcloud wsk activation logs
   ```
 
 * Invoke from CLI
@@ -319,7 +319,7 @@ The next screenshot shows how the location is automatically used in the next 'we
   > Use these commands to invoke the action (named alexa-watson in the example) without any input, then check the latest logs. Expect an error ("Must be called from Alexa").
   ```
   ibmcloud wsk action invoke alexa-watson -bvd
-  ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
+  ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs ibmcloud wsk activation logs
   ```
 
 # Links
