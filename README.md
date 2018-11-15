@@ -2,10 +2,8 @@
 
 # Create an Alexa skill using Watson Assistant and OpenWhisk
 
-> Watson Conversation is now Watson Assistant. Although some images in this code pattern may show the service as Watson Conversation, the steps and processes will still work.
-
 In this Code Pattern, we will create an Alexa skill using
-[Watson Assistant](https://www.ibm.com/watson/developercloud/conversation.html)
+[Watson Assistant](https://www.ibm.com/watson/ai-assistant/)
 via the [Apache OpenWhisk](http://openwhisk.incubator.apache.org/) serverless framework.
 Alexa is the voice service behind products like the Amazon Echo.
 IBM Cloud Functions (based on Apache OpenWhisk) will be used to integrate Alexa
@@ -39,7 +37,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 ## Included components
 
-* [Watson Assistant](https://www.ibm.com/watson/developercloud/conversation.html): Create a chatbot with a program that conducts a conversation via auditory or textual methods.
+* [Watson Assistant](https://www.ibm.com/watson/ai-assistant/): Create a chatbot with a program that conducts a conversation via auditory or textual methods.
 * [OpenWhisk](https://console.ng.bluemix.net/openwhisk): Execute code on demand in a highly scalable, serverless environment.
 * [Redis](https://redis.io/): An open-source, in-memory data structure store, used as a database, cache and message broker.
 
@@ -57,7 +55,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 ## Run locally
 
 1. [Clone the repo](#1-clone-the-repo)
-1. [Create a Watson Assistant workspace](#2-create-a-watson-conversation-workspace)
+1. [Create a Watson Assistant workspace](#2-create-a-watson-assistant-workspace)
 1. [Create a Databases for Redis service](#3-create-a-databases-for-redis-service)
 1. [Create a Weather Company Data service](#4-create-a-weather-company-data-service)
 1. [Configure credentials](#5-configure-credentials)
@@ -103,13 +101,8 @@ Import the Assistant workspace.json:
 
 ### 3. Create a Databases for Redis service
 
-> NOTE: The code currently requires you to disable TLS.
-
-  1. Follow this link: [**Databases for Redis**](https://console.ng.bluemix.net/catalog/services/databases-for-redis)
-  1. Use the `TLS Enabled` pull-down to select `False`
-  1. Hit the `Create` button
-
-![](doc/source/images/redis_tls_false.png)
+Create the service by following this link and hitting `Create`:
+* [**Databases for Redis**](https://console.ng.bluemix.net/catalog/services/databases-for-redis)
 
 ### 4. Create a Weather Company Data service
 
@@ -140,6 +133,7 @@ Edit the `.params` file and add the required settings.
   "CONVERSATION_PASSWORD": "<add_assistant_password>",
   "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
+  "REDIS_CERT": "<add_redis_tls_cert>",
   "WEATHER_URL": "<add_weather_url>"
 }
 ```
@@ -154,6 +148,7 @@ Edit the `.params` file and add the required settings.
   "CONVERSATION_PASSWORD": "<add_assistant_password>",
   "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
+  "REDIS_CERT": "<add_redis_tls_cert>",
   "WEATHER_URL": "<add_weather_url>"
 }
 ```
@@ -168,6 +163,7 @@ Edit the `.params` file and add the required settings.
   "CONVERSATION_IAM_URL": "<add_assistant_url>",
   "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
+  "REDIS_CERT": "<add_redis_tls_cert>",
   "WEATHER_URL": "<add_weather_url>"
 }
 ```
@@ -182,39 +178,23 @@ Databases for Redis, and Weather Company Data), can be found in the IBM Cloud UI
 * Click on `Service credentials` in the sidebar.
 * If there are no credentials listed, click the `New credential` button (some services will create one by default).
 * Click on `View credentials` to see your credentials.
-* Collect the username, password, uri, and url as needed to fill out the .params file.
+* Collect the credentials as needed to fill out the .params file.
+
+> Note: The Databases for Redis credentials are the `rediss.composed` value for the uri and the `rediss.certificate.certificate_base64` value for the cert.
 
 To find the `WORKSPACE_ID` for Watson Assistant:
 * Go to your IBM Cloud Dashboard.
 * Click on your Assistant service in the `Cloud Foundry Services` list.
 * Click on `Manage` in the sidebar.
 * Click on the `Launch tool` button.
-* Click on the `Workspaces` tab.
+* Click on the `Skills` tab.
 * Find the card for the workspace you would like to use. Look for `Alexa Sample`, if you uploaded workspace.json. The name will vary if you used BAE.
-* Click on the three dots in the upper right-hand corner of the card and select `View details`.
+* Click on the three dots in the upper right-hand corner of the card and select `View API Details`.
 * Copy the `Workspace ID` GUID.
 
 ### 6. Create the OpenWhisk action
 
-Run the following to [install the OpenWhisk bindings for IBM Cloud](https://console.bluemix.net/openwhisk/learn/cli):
-```
-bx plugin install Cloud-Functions -r Bluemix
-```
-
-Use `bx login` to initially login or to change your target:
-```
-bx login -a <API endpoint> -o <Organization> -s <Space>
-```
-
-Run the following command to update your OpenWhisk bindings if they are already installed:
-```
-bx wsk package refresh
-```
-
-Run the following to test OpenWhisk on IBM Cloud:
-```
-bx wsk action invoke /whisk.system/utils/echo -p message hello --result
-```
+As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://console.bluemix.net/docs/openwhisk/bluemix_cli.html#cloudfunctions_cli)
 
 #### Create the OpenWhisk action
 Run these commands to gather Node.js requirements, zip the source files, and upload the zipped files
@@ -327,17 +307,17 @@ The next screenshot shows how the location is automatically used in the next 'we
 
 # Troubleshooting
 
-  > Use the IBM Cloud UI to monitor logs, or use this command to show the latest activation log:
+  > Use the IBM Cloud UI to monitor logs, or use this CLI command to show the latest activation log:
   ```
-  bx wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
+  ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
   ```
 
-* Invoke from command line
+* Invoke from CLI
 
   > Use these commands to invoke the action (named alexa-watson in the example) without any input, then check the latest logs. Expect an error ("Must be called from Alexa").
   ```
-  bx wsk action invoke alexa-watson -bvd
-  bx wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
+  ibmcloud wsk action invoke alexa-watson -bvd
+  ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs bx wsk activation logs
   ```
 
 # Links
