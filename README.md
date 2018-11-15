@@ -223,11 +223,13 @@ Go to https://developer.amazon.com/alexa/console/ask and click the `Create Skill
 
 ![](doc/source/images/create_alexa_skill.png)
 
-Provide a name and hit `Next`.
-
-Use the `Select` button to create a **Custom** skill and hit the `Create Skill` button.
+Provide a name, use the `Select` button to create a **Custom** skill and hit the `Create Skill` button.
 
 ![](doc/source/images/select_custom_skill.png)
+
+`Select` button to choose **Start from scratch** template and hit the `Choose` button.
+
+![](doc/source/images/select_startfromscratch_template.png)
 
 Provide an invocation name:
 
