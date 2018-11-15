@@ -21,7 +21,7 @@ const AssistantV1 = require('watson-developer-cloud/assistant/v1');
 const redis = require('redis');
 const openwhisk = require('openwhisk');
 const request = require('request');
-const { Url } = require('url');
+const Url = require('url').Url;
 
 function errorResponse(reason) {
   return {
@@ -78,7 +78,7 @@ function initClients(args) {
 
   // Connect a client to Redis
   const connectionString = args.REDIS_URI;
-  if (connectionString.startsWith("rediss://")) {
+  if (connectionString.startsWith('rediss://')) {
     const convertedCert = Buffer.from(args.REDIS_CERT, 'base64').toString();
     redisClient = redis.createClient(connectionString, {
       tls: { servername: new Url(connectionString).hostname, ca: convertedCert }
@@ -86,10 +86,10 @@ function initClients(args) {
   } else {
     redisClient = redis.createClient(connectionString);
   }
-  redisClient.on("error", function(err) {
-    console.log("Redis Error - " + err);
+  redisClient.on('error', function(err) {
+    console.log('Redis Error - ' + err);
   });
-  
+
   console.log('Connected to Redis');
 }
 
