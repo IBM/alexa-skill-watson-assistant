@@ -3,5 +3,6 @@
   "CONVERSATION_PASSWORD": "<add_assistant_password>",
   "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
+  "REDIS_CERT": "<add_redis_tls_cert>",
   "WEATHER_URL": "<add_weather_url>"
 }
