@@ -309,17 +309,26 @@ The next screenshot shows how the location is automatically used in the next 'we
 
 # Troubleshooting
 
+* Want to see debug logging
+
   > Use the IBM Cloud UI to monitor logs, or use this CLI command to show the latest activation log:
   ```
   ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs ibmcloud wsk activation logs
   ```
 
-* Invoke from CLI
+* Testing invoke from CLI
 
-  > Use these commands to invoke the action (named alexa-watson in the example) without any input, then check the latest logs. Expect an error ("Must be called from Alexa").
+  > Use these commands to invoke the action (named alexa-watson in the example) without any input, then check the latest logs. **Expect an error ("Must be called from Alexa")**.
   ```
   ibmcloud wsk action invoke alexa-watson -bvd
   ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs ibmcloud wsk activation logs
+  ```
+  
+* Can't find the forecast function in IBM Cloud Functions
+
+  > If you don't have Weather Company Data functions in your Org, you can manually create a package binding for your Weather Company Data service. You need the Weather Company Data service user name, and password.
+  ```
+  ibmcloud fn package bind /whisk.system/weather myWeather -p password XXxXXXxXXX -p username 9fff9999-fff9-999f-9999-ffff9ff9f999
   ```
 
 # Links
