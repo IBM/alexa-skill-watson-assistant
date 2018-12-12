@@ -10,16 +10,16 @@ IBM Cloud Functions (based on Apache OpenWhisk) will be used to integrate Alexa
 with Watson Assistant.
 Credit goes to [Niklas Heidloff](http://heidloff.net/) for creating the original project.
 
-An example conversation is included to demonstrate how to pass context between
-different intents. You can also use this Code Pattern to try out a conversation from
+An example Watson Assistant skill is included to demonstrate how to pass context between
+different intents. You can also use this Code Pattern to try out a skill from
 the [Bot Asset Exchange (BAE)](https://developer.ibm.com/code/exchanges/bots/).
 
 When the reader has completed this Code Pattern, they will understand how to:
 
 * Create an OpenWhisk action in the IBM Cloud Functions serverless platform
-* Use Redis to store a session's conversation context across events
-* Import a conversation from the Bot Asset Exchange (BAE) or a JSON file
-* Invoke a conversation with Watson using Node.js
+* Use Redis to store a session's Watson Assistant context across events
+* Import a skill from the Bot Asset Exchange (BAE) or a JSON file
+* Invoke a skill with Watson using Node.js
 * Use the Weather Channel Data service to lookup locations and forecasts
 * Create an Alexa skill to reach tens of millions of customers
 
@@ -29,7 +29,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 1. User says "Alexa, ask Watson...".
 2. Alexa invokes IBM Cloud Functions with input text.
-3. The action gets the conversation context from Redis (if any).
+3. The action gets the Watson Assistant context from Redis (if any).
 4. The action gets a response from Watson Assistant.
 5. The Weather Company Data service provides the forecast (when applicable).
 6. The response context is stored in Redis.
@@ -147,8 +147,8 @@ Edit the `.params` file and add the required settings as described below.
 
 ```json
 {
-  "CONVERSATION_IAM_APIKEY": "<add_assistant_apikey>",
-  "CONVERSATION_IAM_URL": "<add_assistant_url>",
+  "ASSISTANT_IAM_APIKEY": "<add_assistant_apikey>",
+  "ASSISTANT_IAM_URL": "<add_assistant_url>",
   "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
   "REDIS_CERT": "<add_redis_tls_cert>",
@@ -156,7 +156,7 @@ Edit the `.params` file and add the required settings as described below.
 }
 ```
 
-> Note: If you are using older services, you may need CONVERSATION_USERNAME and CONVERSATION_PASSWORD instead of CONVERSATION_IAM_APIKEY and CONVERSATION_IAM_URL.
+> Note: If you are using older services, you may need ASSISTANT_USERNAME and ASSISTANT_PASSWORD instead of ASSISTANT_IAM_APIKEY and ASSISTANT_IAM_URL.
 
 #### Finding the credentials
 
@@ -176,8 +176,8 @@ Databases for Redis, and Weather Company Data), can be found in the IBM Cloud UI
 
 | Params File Key  | Service | Service Credentials Key |
 | ----------- | ------- | --------------- |
-| CONVERSATION_IAM_APIKEY | Watson Assistant | apikey |
-| CONVERSATION_IAM_URL | Watson Assistant | url |
+| ASSISTANT_IAM_APIKEY | Watson Assistant | apikey |
+| ASSISTANT_IAM_URL | Watson Assistant | url |
 | WORKSPACE_ID | Watson Assistant | Use Workspace Id from [Step 2](#2-create-a-watson-assistant-workspace) |
 | REDIS_URI | Databases for Redis | rediss.composed |
 | REDIS_CERT | Databases for Redis | rediss.certificate.certificate_base64 |
@@ -216,11 +216,11 @@ Go to https://developer.amazon.com/alexa/console/ask and click the `Create Skill
 
 ![create_alexa_skill](doc/source/images/create_alexa_skill.png)
 
-Provide a name, use the `Select` button to create a **Custom** skill and hit the `Create Skill` button.
+Provide a name, choose **Custom** model and hit the `Create skill` button.
 
 ![select_custom_skill](doc/source/images/select_custom_skill.png)
 
-`Select` button to choose **Start from scratch** template and hit the `Choose` button.
+Select the **Start from scratch** template and hit the `Choose` button.
 
 ![select_template](doc/source/images/select_startfromscratch_template.png)
 
@@ -276,7 +276,7 @@ Configure the endpoint:
 
 Use the `Test` tab in the Amazon developer console.
 
-Use the slider to enable your skill for testing. You can type or talk and test the skill in the test UI.
+Use the drop-down to enable your skill for testing in `Development`. You can type or talk and test the skill in the test UI.
 
 > Once enabled, you can run the sample via Alexa enabled devices, or the [Echo simulator](https://echosim.io/).
 
@@ -288,7 +288,7 @@ ready to create and publish your own Alexa skill.
 
 # Sample output
 
-Here is a sample conversation flow using the provided conversation workspace.json:
+Here is a sample conversation flow using the provided Watson Assistant workspace.json:
 
 ![sample_conversation](doc/source/images/sample_conversation.png)
 
