@@ -1,6 +1,6 @@
 {
-  "CONVERSATION_USERNAME": "<add_assistant_username>",
-  "CONVERSATION_PASSWORD": "<add_assistant_password>",
+  "CONVERSATION_IAM_APIKEY": "<add_assistant_apikey>",
+  "CONVERSATION_IAM_URL": "<add_assistant_url>",
   "WORKSPACE_ID": "<add_assistant_workspace_id>",
   "REDIS_URI": "<add_redis_uri>",
   "REDIS_CERT": "<add_redis_tls_cert>",
