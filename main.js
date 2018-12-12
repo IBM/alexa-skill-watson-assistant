@@ -111,7 +111,7 @@ function getSessionContext(sessionId) {
   });
 }
 
-function conversationMessage(request, workspaceId) {
+function assistantMessage(request, workspaceId) {
   return new Promise(function(resolve, reject) {
     const input = request.intent ? request.intent.slots.EveryThingSlot.value : 'start skill';
     console.log('WORKSPACE_ID: ' + workspaceId);
@@ -288,7 +288,7 @@ function main(args) {
     verifyFromAlexa(args, rawBody)
       .then(() => initClients(args))
       .then(() => getSessionContext(sessionId))
-      .then(() => conversationMessage(request, args.WORKSPACE_ID))
+      .then(() => assistantMessage(request, args.WORKSPACE_ID))
       .then(watsonResponse => actionHandler(args, watsonResponse))
       .then(actionResponse => sendResponse(actionResponse, resolve))
       .then(() => saveSessionContext(sessionId))

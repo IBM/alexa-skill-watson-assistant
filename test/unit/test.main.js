@@ -95,10 +95,10 @@ describe('test actionHandler()', function() {
   );
 });
 
-describe('test conversationMessage()', function() {
-  const conversationMessage = main.__get__('conversationMessage');
+describe('test assistantMessage()', function() {
+  const assistantMessage = main.__get__('assistantMessage');
   let message;
-  let conversation;
+  let assistant;
   const contextOut = { context: { test: 'testcontext' } };
   const err = null;
   const WS_ID = 'ws-id-to-find';
@@ -108,8 +108,8 @@ describe('test conversationMessage()', function() {
   beforeEach(function() {
     main.__set__('context', TEST_CONTEXT);
     main.__set__(
-      'conversation',
-      watson.conversation({
+      'assistant',
+      new watson.AssistantV1({
         username: 'fake',
         password: 'fake',
         url: 'fake',
@@ -117,15 +117,15 @@ describe('test conversationMessage()', function() {
         version: 'v1'
       })
     );
-    conversation = main.__get__('conversation');
-    message = sinon.stub(conversation, 'message');
+    assistant = main.__get__('assistant');
+    message = sinon.stub(assistant, 'message');
     message.yields(err, contextOut);
   });
 
   it(
-    'test conversationMessage without intent',
+    'test assistantMessage without intent',
     sinon.test(function(done) {
-      conversationMessage({}, WS_ID).then(result => {
+      assistantMessage({}, WS_ID).then(result => {
         expect(result).to.deep.equal(contextOut);
         sinon.assert.calledWithMatch(message, { context: TEST_CONTEXT, input: { text: 'start skill' }, workspace_id: WS_ID });
         done();
@@ -134,9 +134,9 @@ describe('test conversationMessage()', function() {
   );
 
   it(
-    'test conversationMessage with intent',
+    'test assistantMessage with intent',
     sinon.test(function(done) {
-      conversationMessage({ intent: { slots: { EveryThingSlot: { value: TEST_INPUT } } } }, WS_ID).then(result => {
+      assistantMessage({ intent: { slots: { EveryThingSlot: { value: TEST_INPUT } } } }, WS_ID).then(result => {
         expect(result).to.deep.equal(contextOut);
         sinon.assert.calledWithMatch(message, { context: TEST_CONTEXT, input: { text: TEST_INPUT }, workspace_id: WS_ID });
         done();
