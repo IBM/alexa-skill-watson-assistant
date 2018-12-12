@@ -37,7 +37,7 @@ function errorResponse(reason) {
 }
 
 // Using some globals for now
-let conversation;
+let assistant;
 let redisClient;
 let context;
 
@@ -57,24 +57,24 @@ function verifyFromAlexa(args, rawBody) {
 
 function initClients(args) {
   // Connect a client to Watson Assistant
-  if (args.CONVERSATION_IAM_APIKEY) {
-    conversation = new AssistantV1({
+  if (args.ASSISTANT_IAM_APIKEY) {
+    assistant = new AssistantV1({
       version: '2018-02-16',
-      iam_apikey: args.CONVERSATION_IAM_APIKEY,
-      url: args.CONVERSATION_IAM_URL
+      iam_apikey: args.ASSISTANT_IAM_APIKEY,
+      url: args.ASSISTANT_IAM_URL
     });
-  } else if (args.CONVERSATION_USERNAME) {
-    conversation = new AssistantV1({
+  } else if (args.ASSISTANT_USERNAME) {
+    assistant = new AssistantV1({
       version: '2018-02-16',
-      username: args.CONVERSATION_USERNAME,
-      password: args.CONVERSATION_PASSWORD
+      username: args.ASSISTANT_USERNAME,
+      password: args.ASSISTANT_PASSWORD
     });
   } else {
     console.error('err? ' + 'Invalid Credentials');
     throw new Error('Invalid Credentials');
   }
 
-  console.log('Connected to Watson Conversation');
+  console.log('Connected to Watson Assistant');
 
   // Connect a client to Redis
   const connectionString = args.REDIS_URI;
@@ -111,13 +111,13 @@ function getSessionContext(sessionId) {
   });
 }
 
-function conversationMessage(request, workspaceId) {
+function assistantMessage(request, workspaceId) {
   return new Promise(function(resolve, reject) {
     const input = request.intent ? request.intent.slots.EveryThingSlot.value : 'start skill';
     console.log('WORKSPACE_ID: ' + workspaceId);
     console.log('Input text: ' + input);
 
-    conversation.message(
+    assistant.message(
       {
         input: { text: input },
         workspace_id: workspaceId,
@@ -288,7 +288,7 @@ function main(args) {
     verifyFromAlexa(args, rawBody)
       .then(() => initClients(args))
       .then(() => getSessionContext(sessionId))
-      .then(() => conversationMessage(request, args.WORKSPACE_ID))
+      .then(() => assistantMessage(request, args.WORKSPACE_ID))
       .then(watsonResponse => actionHandler(args, watsonResponse))
       .then(actionResponse => sendResponse(actionResponse, resolve))
       .then(() => saveSessionContext(sessionId))
