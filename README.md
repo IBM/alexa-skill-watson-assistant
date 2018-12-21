@@ -39,7 +39,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 ## Included components
 
 * [Watson Assistant](https://www.ibm.com/watson/ai-assistant/): Create a chatbot with a program that conducts a conversation via auditory or textual methods.
-* [OpenWhisk](https://console.ng.bluemix.net/openwhisk): Execute code on demand in a highly scalable, serverless environment.
+* [OpenWhisk](https://cloud.ibm.com/openwhisk): Execute code on demand in a highly scalable, serverless environment.
 * [Redis](https://redis.io/): An open-source, in-memory data structure store, used as a database, cache and message broker.
 
 ## Featured technologies
@@ -77,7 +77,7 @@ cd alexa-skill-watson-conversation
 
 ### 2. Create a Watson Assistant workspace
 
-Sign up for [IBM Cloud](https://console.ng.bluemix.net/registration/) if you don't have an IBM Cloud account yet.
+Sign up for [IBM Cloud](https://cloud.ibm.com/registration/) if you don't have an IBM Cloud account yet.
 
 Use one or both of these options (with or without BAE) to setup an Assistant workspace.
 
@@ -93,7 +93,7 @@ your Assistant service and import your workspace. The service will be named
 
 Create the service by following this link and hitting `Create`:
 
-* [**Watson Assistant**](https://console.ng.bluemix.net/catalog/services/conversation)
+* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
 
 Import the Assistant workspace.json:
 
@@ -118,7 +118,7 @@ To find the `WORKSPACE_ID` for Watson Assistant:
 
 Create the service by following this link and hitting `Create`:
 
-* [**Databases for Redis**](https://console.ng.bluemix.net/catalog/services/databases-for-redis)
+* [**Databases for Redis**](https://cloud.ibm.com/catalog/services/databases-for-redis)
 
 ### 4. Create a Weather Company Data service
 
@@ -126,7 +126,7 @@ If you are using the provided workspace.json, use Weather Company Data to provid
 
 Follow this link and hit `Create`:
 
-* [**Weather Company Data**](https://console.ng.bluemix.net/catalog/services/weather-company-data)
+* [**Weather Company Data**](https://cloud.ibm.com/catalog/services/weather-company-data)
 
 ### 5. Configure credentials
 
@@ -185,7 +185,7 @@ Databases for Redis, and Weather Company Data), can be found in the IBM Cloud UI
 
 ### 6. Create the OpenWhisk action
 
-As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://console.bluemix.net/docs/openwhisk/bluemix_cli.html#cloudfunctions_cli)
+As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://cloud.ibm.com/docs/openwhisk/bluemix_cli.html#cloudfunctions_cli)
 
 #### Create the OpenWhisk action
 
@@ -203,7 +203,7 @@ ibmcloud wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --p
 
 #### Determine your IBM Cloud endpoint:
 
-To find this URL, navigate to [IBM Cloud Functions - Actions](https://console.bluemix.net/openwhisk/manage/actions), click on your
+To find this URL, navigate to [IBM Cloud Functions - Actions](https://cloud.ibm.com/openwhisk/manage/actions), click on your
 `alexa-watson` action and use the sidebar to navigate to `Endpoints`.  The Web Action URL ends with `.json`.
 
 ![functions_endpoints](doc/source/images/functions_endpoints.png)
