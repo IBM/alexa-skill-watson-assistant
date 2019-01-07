@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.org/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.org/IBM/alexa-skill-watson-conversation)
+[![Build Status](https://api.travis-ci.org/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.org/IBM/alexa-skill-watson-conversation)
 
 # Create an Alexa skill using Watson Assistant and OpenWhisk
 
 In this Code Pattern, we will create an Alexa skill using
 [Watson Assistant](https://www.ibm.com/watson/ai-assistant/)
-via the [Apache OpenWhisk](http://openwhisk.incubator.apache.org/) serverless framework.
+via the [Apache OpenWhisk](https://openwhisk.incubator.apache.org/) serverless framework.
 Alexa is the voice service behind products like the Amazon Echo.
 IBM Cloud Functions (based on Apache OpenWhisk) will be used to integrate Alexa
 with Watson Assistant.
@@ -50,7 +50,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 # Watch the Video
 
-[![video](http://img.youtube.com/vi/_iODArA1Eqs/0.jpg)](https://www.youtube.com/watch?v=_iODArA1Eqs)
+[![video](https://img.youtube.com/vi/_iODArA1Eqs/0.jpg)](https://www.youtube.com/watch?v=_iODArA1Eqs)
 
 # Steps
 
@@ -210,7 +210,7 @@ To find this URL, navigate to [IBM Cloud Functions - Actions](https://cloud.ibm.
 
 ### 7. Create an Alexa skill
 
-Sign up for an Amazon Developer Portal account [here](http://developer.amazon.com/).
+Sign up for an Amazon Developer Portal account [here](https://developer.amazon.com/).
 
 Go to https://developer.amazon.com/alexa/console/ask and click the `Create Skill` button.
 
@@ -331,13 +331,13 @@ The next screenshot shows how the location is automatically used in the next 'we
 * [Demo on Youtube](https://www.youtube.com/watch?v=_iODArA1Eqs): Watch the video.
 * [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk): Download the Watson Node SDK.
 * [Alexa/Google Home infinite loop conversation](https://www.youtube.com/watch?v=LEz9AU9c2qQ): Check out how it works.
-* [Award winners](https://www.voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
+* [Award winners](https://voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
 * [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Assistant Service.
 * [Old Demo on Youtube](https://www.youtube.com/watch?v=4cTSkX0wSV8): Watch the video.
 
 # Learn more
 
-* **Artificial Intelligence Code Patterns**: Enjoyed this Code Pattern? Check out our other [AI Code Patterns](https://developer.ibm.com/code/technologies/artificial-intelligence/).
+* **Artificial Intelligence Code Patterns**: Enjoyed this Code Pattern? Check out our other [AI Code Patterns](https://developer.ibm.com/technologies/artificial-intelligence/).
 * **AI and Data Code Pattern Playlist**: Bookmark our [playlist](https://www.youtube.com/playlist?list=PLzUbsvIyrNfknNewObx5N7uGZ5FKH0Fde) with all of our Code Pattern videos
 * **With Watson**: Want to take your Watson app to the next level? Looking to utilize Watson Brand assets? [Join the With Watson program](https://www.ibm.com/watson/with-watson/) to leverage exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
 
