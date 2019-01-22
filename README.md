@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.org/IBM/alexa-skill-watson-conversation)
+[![Build Status](https://travis-ci.org/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.org/IBM/alexa-skill-watson-conversation)
 
 # Create an Alexa skill using Watson Assistant and OpenWhisk
 
@@ -313,12 +313,12 @@ The next screenshot shows how the location is automatically used in the next 'we
 * Testing invoke from CLI
 
   > Use these commands to invoke the action (named alexa-watson in the example) without any input, then check the latest logs. **Expect an error ("Must be called from Alexa")**.
-  
+
   ```bash
   ibmcloud wsk action invoke alexa-watson -bvd
   ibmcloud wsk activation list -l1 | tail -n1 | cut -d ' ' -f1 | xargs ibmcloud wsk activation logs
   ```
-  
+
 * Can't find the forecast function in IBM Cloud Functions
 
   > If you don't have Weather Company Data functions in your Org, you can manually create a package binding for your Weather Company Data service. You need the Weather Company Data service user name, and password.
