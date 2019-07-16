@@ -17,7 +17,7 @@
 'use strict';
 
 const alexaVerifier = require('alexa-verifier');
-const AssistantV1 = require('watson-developer-cloud/assistant/v1');
+const AssistantV1 = require('ibm-watson/assistant/v1');
 const redis = require('redis');
 const openwhisk = require('openwhisk');
 const request = require('request');
@@ -48,7 +48,7 @@ function verifyFromAlexa(args, rawBody) {
     alexaVerifier(certUrl, signature, rawBody, function(err) {
       if (err) {
         console.error('err? ' + JSON.stringify(err));
-        throw new Error('Alexa verification failed.');
+        throw Error('Alexa verification failed.');
       }
       resolve();
     });
@@ -59,52 +59,57 @@ function initClients(args) {
   // Connect a client to Watson Assistant
   if (args.ASSISTANT_IAM_APIKEY) {
     assistant = new AssistantV1({
-      version: '2018-02-16',
+      version: '2019-07-16',
       iam_apikey: args.ASSISTANT_IAM_APIKEY,
       url: args.ASSISTANT_IAM_URL
     });
   } else if (args.ASSISTANT_USERNAME) {
     assistant = new AssistantV1({
-      version: '2018-02-16',
+      version: '2019-07-16',
       username: args.ASSISTANT_USERNAME,
       password: args.ASSISTANT_PASSWORD
     });
   } else {
     console.error('err? ' + 'Invalid Credentials');
-    throw new Error('Invalid Credentials');
+    throw Error('Invalid Credentials');
   }
 
   console.log('Connected to Watson Assistant');
 
   // Connect a client to Redis
   const connectionString = args.REDIS_URI;
-  if (connectionString.startsWith('rediss://')) {
-    const convertedCert = Buffer.from(args.REDIS_CERT, 'base64').toString();
-    redisClient = redis.createClient(connectionString, {
-      tls: { servername: new Url(connectionString).hostname, ca: convertedCert }
+  if (args.REDIS_URI) {
+    if (connectionString.startsWith('rediss://')) {
+      const convertedCert = Buffer.from(args.REDIS_CERT, 'base64').toString();
+      redisClient = redis.createClient(connectionString, {
+        tls: { servername: new Url(connectionString).hostname, ca: convertedCert }
+      });
+    } else {
+      redisClient = redis.createClient(connectionString);
+    }
+    redisClient.on('error', function(err) {
+      console.log('Redis Error - ' + err);
     });
-  } else {
-    redisClient = redis.createClient(connectionString);
-  }
-  redisClient.on('error', function(err) {
-    console.log('Redis Error - ' + err);
-  });
 
-  console.log('Connected to Redis');
+    console.log('Connected to Redis');
+  } else {
+    console.error('Missing REDIS_URI');
+    throw Error('Missing required configuration of REDIS_URI');
+  }
 }
 
 function getSessionContext(sessionId) {
-  console.log('sessionId: ' + sessionId);
+  console.log('Alexa sessionId: ' + sessionId);
 
   return new Promise(function(resolve, reject) {
     redisClient.get(sessionId, function(err, value) {
       if (err) {
         console.error(err);
-        reject('Error getting context from Redis.');
+        reject(Error('Error getting context from Redis.'));
       }
       // set global context
       context = value ? JSON.parse(value) : {};
-      console.log('context:');
+      console.log('Watson context from Redis:');
       console.log(context);
       resolve();
     });
@@ -126,7 +131,7 @@ function assistantMessage(request, workspaceId) {
       function(err, watsonResponse) {
         if (err) {
           console.error(err);
-          reject('Error talking to Watson.');
+          reject(Error('Error talking to Watson.'));
         } else {
           console.log(watsonResponse);
           context = watsonResponse.context; // Update global context
@@ -159,7 +164,7 @@ function lookupGeocode(args, location) {
           // console.log('Locations from Weather location services');
           // console.log(body.location);
           if (body.location.length < 1) {
-            reject('Location not found');
+            reject(Error('Location not found'));
           }
           // Just take the first one.
           const latitude = body.location.latitude[0];
@@ -253,7 +258,8 @@ function sendResponse(response, resolve) {
         type: 'PlainText',
         text: output
       }
-    }
+    },
+    sessionAttributes: { watsonContext: context }
   });
 }
 
@@ -283,6 +289,12 @@ function main(args) {
     const rawBody = Buffer.from(args.__ow_body, 'base64').toString('ascii');
     const body = JSON.parse(rawBody);
     const sessionId = body.session.sessionId;
+
+    // Alexa attributes hold our context (for future use)
+    const alexaAttributes = body.session.attributes;
+    console.log('Alexa attributes:');
+    console.log(alexaAttributes);
+
     const request = body.request;
 
     verifyFromAlexa(args, rawBody)
