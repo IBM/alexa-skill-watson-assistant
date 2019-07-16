@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.org/IBM/alexa-skill-watson-conversation)
+[![Build Status](https://travis-ci.com/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.com/IBM/alexa-skill-watson-conversation)
 
 # Create an Alexa skill using Watson Assistant and OpenWhisk
 
