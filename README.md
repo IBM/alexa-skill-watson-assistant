@@ -23,7 +23,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 * Use the Weather Channel Data service to lookup locations and forecasts
 * Create an Alexa skill to reach tens of millions of customers
 
-![](doc/source/images/architecture.png)
+![architecture.png](doc/source/images/architecture.png)
 
 ## Flow
 
@@ -201,9 +201,9 @@ zip -r action.zip main.js package* node_modules
 ibmcloud wsk action update alexa-watson action.zip --kind nodejs:8 --web raw --param-file .params
 ```
 
-#### Determine your IBM Cloud endpoint:
+#### Determine your IBM Cloud endpoint
 
-To find this URL, navigate to [IBM Cloud Functions - Actions](https://cloud.ibm.com/openwhisk/manage/actions), click on your
+To find this URL, navigate to [IBM Cloud Functions - Actions](https://cloud.ibm.com/openwhisk/actions), click on your
 `alexa-watson` action and use the sidebar to navigate to `Endpoints`.  The Web Action URL ends with `.json`.
 
 ![functions_endpoints](doc/source/images/functions_endpoints.png)
