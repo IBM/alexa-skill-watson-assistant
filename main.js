@@ -103,8 +103,8 @@ function getSessionContext(sessionId) {
 
   return new Promise(function(resolve, reject) {
     if (redisClient === null) {
-        // Redis is optional now. Will get context from session attributes.
-        resolve();
+      // Redis is optional now. Will get context from session attributes.
+      resolve();
     } else {
       // Keeping Redis as an example of Redis integration.
       redisClient.get(sessionId, function(err, value) {
@@ -304,10 +304,10 @@ function main(args) {
     const alexaAttributes = body.session.attributes;
     console.log('Alexa attributes:');
     console.log(alexaAttributes);
-    if (typeof alexaAttributes !== "undefined" && alexaAttributes.hasOwnProperty('watsonContext')) {
+    if (typeof alexaAttributes !== 'undefined' && Object.prototype.hasOwnProperty.call(alexaAttributes, 'watsonContext')) {
       context = alexaAttributes.watsonContext;
     } else {
-      context = {}
+      context = {};
     }
 
     const request = body.request;
