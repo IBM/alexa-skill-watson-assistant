@@ -98,12 +98,12 @@ Create the service by following this link and hitting `Create`:
 Import the Assistant workspace.json:
 
 * Find the Assistant service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch tool`.
+* Click on the service and then click on `Launch Watson Assistant`.
 * Go to the `Skills` tab.
-* Click `Create new`
+* Click `Create skill`
 * Click the `Import skill` tab.
 * Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
-* Select `Everything` and click `Import`.
+* Select `Everything (Intents, Entities, and Dialog)` and click `Import`.
 
 To find the `WORKSPACE_ID` for Watson Assistant:
 
@@ -198,7 +198,7 @@ to create a raw HTTP web action in OpenWhisk.
 npm install
 rm action.zip
 zip -r action.zip main.js package* node_modules
-ibmcloud wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
+ibmcloud wsk action update alexa-watson action.zip --kind nodejs:8 --web raw --param-file .params
 ```
 
 #### Determine your IBM Cloud endpoint:
