@@ -20,7 +20,7 @@ const chai = require('chai');
 const rewire = require('rewire');
 const sinon = require('sinon');
 const sinonTest = require('sinon-test');
-const watson = require('watson-developer-cloud');
+const AssistantV1 = require('ibm-watson/assistant/v1');
 
 const main = rewire('../../main.js'); // For testing private functions
 const expect = chai.expect;
@@ -109,12 +109,11 @@ describe('test assistantMessage()', function() {
     main.__set__('context', TEST_CONTEXT);
     main.__set__(
       'assistant',
-      new watson.AssistantV1({
+      new AssistantV1({
         username: 'fake',
         password: 'fake',
         url: 'fake',
-        version_date: '2017-04-21',
-        version: 'v1'
+        version: '2019-07-16'
       })
     );
     assistant = main.__get__('assistant');

@@ -23,7 +23,7 @@ When the reader has completed this Code Pattern, they will understand how to:
 * Use the Weather Channel Data service to lookup locations and forecasts
 * Create an Alexa skill to reach tens of millions of customers
 
-![](doc/source/images/architecture.png)
+![architecture.png](doc/source/images/architecture.png)
 
 ## Flow
 
@@ -98,12 +98,12 @@ Create the service by following this link and hitting `Create`:
 Import the Assistant workspace.json:
 
 * Find the Assistant service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch tool`.
+* Click on the service and then click on `Launch Watson Assistant`.
 * Go to the `Skills` tab.
-* Click `Create new`
+* Click `Create skill`
 * Click the `Import skill` tab.
 * Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in [`data/conversation/workspaces/workspace.json`](data/conversation/workspaces/workspace.json).
-* Select `Everything` and click `Import`.
+* Select `Everything (Intents, Entities, and Dialog)` and click `Import`.
 
 To find the `WORKSPACE_ID` for Watson Assistant:
 
@@ -185,7 +185,7 @@ Databases for Redis, and Weather Company Data), can be found in the IBM Cloud UI
 
 ### 6. Create the OpenWhisk action
 
-As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://cloud.ibm.com/docs/openwhisk/bluemix_cli.html#cloudfunctions_cli)
+As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://cloud.ibm.com/docs/openwhisk?topic=cloud-functions-cli_install)
 
 #### Create the OpenWhisk action
 
@@ -198,12 +198,12 @@ to create a raw HTTP web action in OpenWhisk.
 npm install
 rm action.zip
 zip -r action.zip main.js package* node_modules
-ibmcloud wsk action update alexa-watson action.zip --kind nodejs:6 --web raw --param-file .params
+ibmcloud wsk action update alexa-watson action.zip --kind nodejs:8 --web raw --param-file .params
 ```
 
-#### Determine your IBM Cloud endpoint:
+#### Determine your IBM Cloud endpoint
 
-To find this URL, navigate to [IBM Cloud Functions - Actions](https://cloud.ibm.com/openwhisk/manage/actions), click on your
+To find this URL, navigate to [IBM Cloud Functions - Actions](https://cloud.ibm.com/openwhisk/actions), click on your
 `alexa-watson` action and use the sidebar to navigate to `Endpoints`.  The Web Action URL ends with `.json`.
 
 ![functions_endpoints](doc/source/images/functions_endpoints.png)
@@ -333,7 +333,6 @@ The next screenshot shows how the location is automatically used in the next 'we
 * [Alexa/Google Home infinite loop conversation](https://www.youtube.com/watch?v=LEz9AU9c2qQ): Check out how it works.
 * [Award winners](https://voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
 * [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Assistant Service.
-* [Old Demo on Youtube](https://www.youtube.com/watch?v=4cTSkX0wSV8): Watch the video.
 
 # Learn more
 
