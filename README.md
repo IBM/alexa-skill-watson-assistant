@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.org/IBM/alexa-skill-watson-conversation)
+[![Build Status](https://travis-ci.com/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.com/IBM/alexa-skill-watson-conversation)
 
 # Create an Alexa skill using Watson Assistant and OpenWhisk
 
@@ -185,7 +185,7 @@ Databases for Redis, and Weather Company Data), can be found in the IBM Cloud UI
 
 ### 6. Create the OpenWhisk action
 
-As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://cloud.ibm.com/docs/openwhisk/bluemix_cli.html#cloudfunctions_cli)
+As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://cloud.ibm.com/docs/openwhisk?topic=cloud-functions-cli_install)
 
 #### Create the OpenWhisk action
 
@@ -333,7 +333,6 @@ The next screenshot shows how the location is automatically used in the next 'we
 * [Alexa/Google Home infinite loop conversation](https://www.youtube.com/watch?v=LEz9AU9c2qQ): Check out how it works.
 * [Award winners](https://voicebot.ai/2017/03/01/amazon-alexa-ibm-watson-won-2016-voice-assistant-wars-already-winning-2017/): Amazon Alexa and IBM Watson won the 2016 Voice Assistant Wars.
 * [Bluemix Stirred](https://bluemixstirred.wordpress.com/2017/05/11/use-the-amazon-echo-dot-with-the-watson-conversation-service/): Learn how to use the Amazon Echo and Dot with the Watson Assistant Service.
-* [Old Demo on Youtube](https://www.youtube.com/watch?v=4cTSkX0wSV8): Watch the video.
 
 # Learn more
 
