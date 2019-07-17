@@ -116,6 +116,8 @@ To find the `WORKSPACE_ID` for Watson Assistant:
 
 ### 3. Create a Databases for Redis service
 
+> NOTE: Redis is now optional. We've kept the Redis code to show how to use it, but we are also saving the context in session attributes. If you remove the REDIS_URI parameter, it will still work.
+
 Create the service by following this link and hitting `Create`:
 
 * [**Databases for Redis**](https://cloud.ibm.com/catalog/services/databases-for-redis)

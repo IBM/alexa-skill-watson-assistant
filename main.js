@@ -93,8 +93,8 @@ function initClients(args) {
 
     console.log('Connected to Redis');
   } else {
-    console.error('Missing REDIS_URI');
-    throw Error('Missing required configuration of REDIS_URI');
+    redisClient = null;
+    console.log('Missing REDIS_URI Will use session attributes instead of Redis.');
   }
 }
 
@@ -102,17 +102,23 @@ function getSessionContext(sessionId) {
   console.log('Alexa sessionId: ' + sessionId);
 
   return new Promise(function(resolve, reject) {
-    redisClient.get(sessionId, function(err, value) {
-      if (err) {
-        console.error(err);
-        reject(Error('Error getting context from Redis.'));
-      }
-      // set global context
-      context = value ? JSON.parse(value) : {};
-      console.log('Watson context from Redis:');
-      console.log(context);
+    if (redisClient === null) {
+      // Redis is optional now. Will get context from session attributes.
       resolve();
-    });
+    } else {
+      // Keeping Redis as an example of Redis integration.
+      redisClient.get(sessionId, function(err, value) {
+        if (err) {
+          console.error(err);
+          reject(Error('Error getting context from Redis.'));
+        }
+        // set global context
+        context = value ? JSON.parse(value) : {};
+        console.log('Watson context from Redis:');
+        console.log(context);
+        resolve();
+      });
+    }
   });
 }
 
@@ -267,14 +273,18 @@ function saveSessionContext(sessionId) {
   console.log('Begin saveSessionContext');
   console.log(sessionId);
 
-  // Save the context in Redis. Can do this after resolve(response).
-  if (context) {
-    const newContextString = JSON.stringify(context);
-    // Saved context will expire in 600 secs.
-    redisClient.set(sessionId, newContextString, 'EX', 600);
-    console.log('Saved context in Redis');
-    console.log(sessionId);
-    console.log(newContextString);
+  if (redisClient === null) {
+    console.log('Skipped saving context in Redis.');
+  } else {
+    // Save the context in Redis. Can do this after resolve(response).
+    if (context) {
+      const newContextString = JSON.stringify(context);
+      // Saved context will expire in 600 secs.
+      redisClient.set(sessionId, newContextString, 'EX', 600);
+      console.log('Saved context in Redis');
+      console.log(sessionId);
+      console.log(newContextString);
+    }
   }
 }
 
@@ -290,10 +300,15 @@ function main(args) {
     const body = JSON.parse(rawBody);
     const sessionId = body.session.sessionId;
 
-    // Alexa attributes hold our context (for future use)
+    // Alexa attributes hold our context (making Redis optional)
     const alexaAttributes = body.session.attributes;
     console.log('Alexa attributes:');
     console.log(alexaAttributes);
+    if (typeof alexaAttributes !== 'undefined' && Object.prototype.hasOwnProperty.call(alexaAttributes, 'watsonContext')) {
+      context = alexaAttributes.watsonContext;
+    } else {
+      context = {};
+    }
 
     const request = body.request;
 
