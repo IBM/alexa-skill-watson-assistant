@@ -93,7 +93,7 @@ your Assistant service and import your workspace. The service will be named
 
 Create the service by following this link and hitting `Create`:
 
-* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
+* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/watson-assistant)
 
 Import the Assistant workspace.json:
 
