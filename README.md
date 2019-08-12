@@ -67,12 +67,12 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 ### 1. Clone the repo
 
-Clone the `alexa-skill-watson-conversation` repo locally and `cd` to the local repo
+Clone the `alexa-skill-watson-assistant` repo locally and `cd` to the local repo
 (for commands in later steps). In a terminal, run:
 
 ```bash
-git clone https://github.com/IBM/alexa-skill-watson-conversation
-cd alexa-skill-watson-conversation
+git clone https://github.com/IBM/alexa-skill-watson-assistant
+cd alexa-skill-watson-assistant
 ```
 
 ### 2. Create a Watson Assistant workspace
