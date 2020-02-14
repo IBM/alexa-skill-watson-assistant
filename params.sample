@@ -1,8 +1,5 @@
 {
-  "ASSISTANT_IAM_APIKEY": "<add_assistant_apikey>",
-  "ASSISTANT_IAM_URL": "<add_assistant_url>",
-  "WORKSPACE_ID": "<add_assistant_workspace_id>",
-  "REDIS_URI": "<add_redis_uri>",
-  "REDIS_CERT": "<add_redis_tls_cert>",
-  "WEATHER_URL": "<add_weather_url>"
+  "ASSISTANT_APIKEY": "<add_assistant_apikey>",
+  "ASSISTANT_URL": "<add_assistant_url>",
+  "SKILL_ID": "<add_assistant_skill_id>"
 }

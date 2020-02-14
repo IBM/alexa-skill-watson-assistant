@@ -18,10 +18,7 @@
 
 const alexaVerifier = require('alexa-verifier');
 const AssistantV1 = require('ibm-watson/assistant/v1');
-const redis = require('redis');
-const openwhisk = require('openwhisk');
-const request = require('request');
-const Url = require('url').Url;
+const { IamAuthenticator } = require('ibm-watson/auth');
 
 function errorResponse(reason) {
   return {
@@ -38,7 +35,6 @@ function errorResponse(reason) {
 
 // Using some globals for now
 let assistant;
-let redisClient;
 let context;
 
 function verifyFromAlexa(args, rawBody) {
@@ -57,81 +53,25 @@ function verifyFromAlexa(args, rawBody) {
 
 function initClients(args) {
   // Connect a client to Watson Assistant
-  if (args.ASSISTANT_IAM_APIKEY) {
-    assistant = new AssistantV1({
-      version: '2019-07-16',
-      iam_apikey: args.ASSISTANT_IAM_APIKEY,
-      url: args.ASSISTANT_IAM_URL
-    });
-  } else if (args.ASSISTANT_USERNAME) {
-    assistant = new AssistantV1({
-      version: '2019-07-16',
-      username: args.ASSISTANT_USERNAME,
-      password: args.ASSISTANT_PASSWORD
-    });
-  } else {
-    console.error('err? ' + 'Invalid Credentials');
-    throw Error('Invalid Credentials');
-  }
+  assistant = new AssistantV1({
+    version: '2020-02-02',
+    authenticator: new IamAuthenticator({ apikey: args.ASSISTANT_APIKEY }),
+    serviceUrl: args.ASSISTANT_URL
+  });
 
   console.log('Connected to Watson Assistant');
-
-  // Connect a client to Redis
-  const connectionString = args.REDIS_URI;
-  if (args.REDIS_URI) {
-    if (connectionString.startsWith('rediss://')) {
-      const convertedCert = Buffer.from(args.REDIS_CERT, 'base64').toString();
-      redisClient = redis.createClient(connectionString, {
-        tls: { servername: new Url(connectionString).hostname, ca: convertedCert }
-      });
-    } else {
-      redisClient = redis.createClient(connectionString);
-    }
-    redisClient.on('error', function(err) {
-      console.log('Redis Error - ' + err);
-    });
-
-    console.log('Connected to Redis');
-  } else {
-    redisClient = null;
-    console.log('Missing REDIS_URI Will use session attributes instead of Redis.');
-  }
 }
 
-function getSessionContext(sessionId) {
-  console.log('Alexa sessionId: ' + sessionId);
-
-  return new Promise(function(resolve, reject) {
-    if (redisClient === null) {
-      // Redis is optional now. Will get context from session attributes.
-      resolve();
-    } else {
-      // Keeping Redis as an example of Redis integration.
-      redisClient.get(sessionId, function(err, value) {
-        if (err) {
-          console.error(err);
-          reject(Error('Error getting context from Redis.'));
-        }
-        // set global context
-        context = value ? JSON.parse(value) : {};
-        console.log('Watson context from Redis:');
-        console.log(context);
-        resolve();
-      });
-    }
-  });
-}
-
-function assistantMessage(request, workspaceId) {
+function assistantMessage(request, skillId) {
   return new Promise(function(resolve, reject) {
     const input = request.intent ? request.intent.slots.EveryThingSlot.value : 'start skill';
-    console.log('WORKSPACE_ID: ' + workspaceId);
+    console.log('SKILL_ID: ' + skillId);
     console.log('Input text: ' + input);
 
     assistant.message(
       {
         input: { text: input },
-        workspace_id: workspaceId,
+        workspaceId: skillId,
         context: context
       },
       function(err, watsonResponse) {
@@ -139,111 +79,12 @@ function assistantMessage(request, workspaceId) {
           console.error(err);
           reject(Error('Error talking to Watson.'));
         } else {
-          console.log(watsonResponse);
-          context = watsonResponse.context; // Update global context
+          console.log('Watson result: ', watsonResponse.result);
+          context = watsonResponse.result.context; // Update global context
           resolve(watsonResponse);
         }
       }
     );
-  });
-}
-
-function lookupGeocode(args, location) {
-  if (args.WEATHER_URL) {
-    return new Promise(function(resolve, reject) {
-      const weatherPort = args.WEATHER_PORT || 443;
-      const url = args.WEATHER_URL + ':' + weatherPort + '/api/weather/v3/location/search';
-      console.log('Getting geocode for ' + location);
-      request(
-        {
-          method: 'GET',
-          url: url,
-          jar: true,
-          json: true,
-          qs: {
-            query: location,
-            locationType: 'city',
-            language: 'en-US'
-          }
-        },
-        function(err, response, body) {
-          // console.log('Locations from Weather location services');
-          // console.log(body.location);
-          if (body.location.length < 1) {
-            reject(Error('Location not found'));
-          }
-          // Just take the first one.
-          const latitude = body.location.latitude[0];
-          const longitude = body.location.longitude[0];
-          resolve([latitude, longitude]);
-        }
-      );
-    });
-  } else {
-    console.log('Cannot lookup geocode, using Honolulu.');
-    return Promise.resolve([21.32, -157.85]);
-  }
-}
-
-function myOpenWhisk() {
-  return openwhisk();
-}
-
-function getWeatherCompanyForecast(geocode) {
-  // console.log(geocode);
-  const ow = myOpenWhisk();
-  const blocking = true;
-  const params = { units: 'e', latitude: geocode[0].toString(), longitude: geocode[1].toString() };
-
-  return ow.packages
-    .list()
-    .then(results => {
-      console.log('results: ', results);
-      let name;
-      // Find the Weather Company Data package and build the action name for forecast.
-      for (let i = 0, size = results.length; i < size; i++) {
-        const result = results[i];
-        console.log(result);
-        console.log(result.name);
-        if (result.binding.name === 'weather') {
-          name = '/' + result.namespace + '/' + result.name + '/forecast';
-          break;
-        }
-      }
-      console.log('Using weather from ' + name);
-      return name;
-    })
-    .then(name => {
-      return ow.actions.invoke({ name, blocking, params });
-    });
-}
-
-function actionHandler(args, watsonResponse) {
-  console.log('Begin actionHandler');
-  console.log(args);
-  console.log(watsonResponse);
-
-  return new Promise((resolve, reject) => {
-    switch (watsonResponse.output.action) {
-      case 'lookupWeather':
-        console.log("Calling action 'lookupWeather'");
-        return lookupGeocode(args, watsonResponse.output.location)
-          .then(geocode => getWeatherCompanyForecast(geocode))
-          .then(forecast => {
-            // Use the first narrative.
-            const narrative = forecast.response.result.forecasts[0].narrative;
-            watsonResponse.output.text.push(narrative);
-            resolve(watsonResponse);
-          });
-      /* Other actions could be implemented with this switch or using watsonResponse values.
-      case "addMoreActionsHere":
-          return resolve(watsonResponse);
-      */
-      default:
-        // No action. Resolve with watsonResponse as-is.
-        console.log('No action');
-        return resolve(watsonResponse);
-    }
   });
 }
 
@@ -252,7 +93,7 @@ function sendResponse(response, resolve) {
   console.log(response);
 
   // Combine the output messages into one message.
-  const output = response.output.text.join(' ');
+  const output = response.result.output.text.join(' ');
   console.log('Output text: ' + output);
 
   // Resolve the main promise now that we have our response
@@ -269,25 +110,6 @@ function sendResponse(response, resolve) {
   });
 }
 
-function saveSessionContext(sessionId) {
-  console.log('Begin saveSessionContext');
-  console.log(sessionId);
-
-  if (redisClient === null) {
-    console.log('Skipped saving context in Redis.');
-  } else {
-    // Save the context in Redis. Can do this after resolve(response).
-    if (context) {
-      const newContextString = JSON.stringify(context);
-      // Saved context will expire in 600 secs.
-      redisClient.set(sessionId, newContextString, 'EX', 600);
-      console.log('Saved context in Redis');
-      console.log(sessionId);
-      console.log(newContextString);
-    }
-  }
-}
-
 function main(args) {
   console.log('Begin action');
   // console.log(args);
@@ -298,9 +120,8 @@ function main(args) {
 
     const rawBody = Buffer.from(args.__ow_body, 'base64').toString('ascii');
     const body = JSON.parse(rawBody);
-    const sessionId = body.session.sessionId;
 
-    // Alexa attributes hold our context (making Redis optional)
+    // Alexa attributes hold our context
     const alexaAttributes = body.session.attributes;
     console.log('Alexa attributes:');
     console.log(alexaAttributes);
@@ -314,11 +135,8 @@ function main(args) {
 
     verifyFromAlexa(args, rawBody)
       .then(() => initClients(args))
-      .then(() => getSessionContext(sessionId))
-      .then(() => assistantMessage(request, args.WORKSPACE_ID))
-      .then(watsonResponse => actionHandler(args, watsonResponse))
-      .then(actionResponse => sendResponse(actionResponse, resolve))
-      .then(() => saveSessionContext(sessionId))
+      .then(() => assistantMessage(request, args.SKILL_ID))
+      .then(watsonResponse => sendResponse(watsonResponse, resolve))
       .catch(err => {
         console.error('Caught error: ');
         console.log(err);
