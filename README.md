@@ -43,10 +43,10 @@ When the reader has completed this Code Pattern, they will understand how to:
 
 1. [Clone the repo](#1-clone-the-repo)
 1. [Create a Watson Assistant skill](#2-create-a-watson-assistant-skill)
-1. [Configure credentials](#5-configure-credentials)
-1. [Create the OpenWhisk action](#6-create-the-openwhisk-action)
-1. [Create an Alexa skill](#7-create-an-alexa-skill)
-1. [Talk to it](#8-talk-to-it)
+1. [Configure credentials](#3-configure-credentials)
+1. [Create the OpenWhisk action](#4-create-the-openwhisk-action)
+1. [Create an Alexa skill](#5-create-an-alexa-skill)
+1. [Talk to it](#6-talk-to-it)
 
 ### 1. Clone the repo
 
@@ -97,7 +97,7 @@ To find the `SKILL_ID` for Watson Assistant:
 
 ![view_api_details](doc/source/images/view_api_details.png)
 
-### 5. Configure credentials
+### 3. Configure credentials
 
 The default runtime parameters need to be set for the action.
 These can be set on the command line or via the IBM Cloud UI.
@@ -133,7 +133,7 @@ The credentials for IBM Cloud services can be found in the IBM Cloud UI.
 * Use the copy icons to copy the `API Key` and `URL` and paste them into your .params file.
 * For `SKILL_ID`, use the Skill ID for Watson Assistant from [Step 2](#2-create-a-watson-assistant-skill).
 
-### 6. Create the OpenWhisk action
+### 4. Create the OpenWhisk action
 
 As a prerequisite, [install the Cloud Functions (IBM Cloud OpenWhisk) CLI](https://cloud.ibm.com/docs/openwhisk?topic=cloud-functions-cli_install)
 
@@ -158,7 +158,7 @@ To find this URL, navigate to [IBM Cloud Functions - Actions](https://cloud.ibm.
 
 ![functions_endpoints](doc/source/images/functions_endpoints.png)
 
-### 7. Create an Alexa skill
+### 5. Create an Alexa skill
 
 Sign up for an Amazon Developer Portal account [here](https://developer.amazon.com/).
 
@@ -223,7 +223,7 @@ Configure the endpoint:
 
 ![service_endpoint_type](doc/source/images/service_endpoint_type.png)
 
-### 8. Talk to it
+### 6. Talk to it
 
 Use the `Test` tab in the Amazon developer console.
 
