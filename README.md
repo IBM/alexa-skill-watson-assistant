@@ -70,7 +70,7 @@ If you are using
 [BAE](https://developer.ibm.com/code/exchanges/bots),
 click on a `Deploy this bot` button to automatically create
 your Assistant service and import your skill. The service will be named
-`Bot Asset Exchange Workspaces` and can hold up to 5 selected skill.
+`Bot Asset Exchange Workspaces` and can hold up to 5 selected skills.
 
 #### Using the provided rent_a_car.json file
 
