@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.com/IBM/alexa-skill-watson-conversation.svg?branch=master)](https://travis-ci.com/IBM/alexa-skill-watson-conversation)
+# WARNING: This repository is no longer maintained :warning:
+
+> This repository will not be updated. The repository will be kept available in read-only mode. 
 
 # Create an Alexa skill using Watson Assistant and OpenWhisk
 
